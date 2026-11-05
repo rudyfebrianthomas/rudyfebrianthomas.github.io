@@ -22,9 +22,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme");if(t==="light")document.documentElement.classList.remove("dark");else if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}`,
+          }}
+        />
         {/* App Router root layout applies to every page, so the rule's single-page concern doesn't apply. */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
@@ -32,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
       </head>
-      <body className="relative flex min-h-full flex-col bg-background font-sans text-body-md text-on-surface selection:bg-teal-500 selection:text-white">
+      <body className="relative flex min-h-full flex-col bg-background font-sans text-body-md text-on-surface transition-colors duration-200 selection:bg-teal-500 selection:text-white">
         {children}
       </body>
     </html>

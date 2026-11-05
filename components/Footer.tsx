@@ -29,7 +29,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row lg:px-12">
         <div className="flex flex-col items-center gap-1 md:items-start">
           <span className="font-mono text-label-md font-semibold tracking-tight text-on-surface">
-            {profile.name} · Systems &amp; Interfaces
+            {profile.name} · Frontend Developer
           </span>
           <p className="text-body-sm text-on-surface-variant">
             © {new Date().getFullYear()} {profile.name}. All rights reserved.

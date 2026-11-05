@@ -12,13 +12,13 @@ export function Education() {
             <h3 className="text-headline-md tracking-tight text-on-surface">
               {education.degree}
             </h3>
-            <p className="flex items-center gap-2 text-body-md font-medium text-teal-400">
+            <p className="flex items-center gap-2 text-body-md font-medium text-primary">
               <Icon name="school" className="text-[18px]" />
               {education.school}
             </p>
           </div>
           <p className="flex items-center gap-2 self-start rounded-full border border-surface-container-highest bg-surface-container px-3.5 py-1.5 font-mono text-label-sm text-on-surface-variant md:self-auto">
-            <Icon name="calendar_today" className="text-[16px] text-teal-400" />
+            <Icon name="calendar_today" className="text-[16px] text-primary" />
             {education.period}
           </p>
         </div>

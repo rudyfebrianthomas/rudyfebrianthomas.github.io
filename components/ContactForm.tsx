@@ -93,15 +93,15 @@ export function ContactForm() {
       {sent && (
         <p
           role="status"
-          className="flex items-center gap-2 rounded-xl border border-teal-500/20 bg-teal-500/10 p-3 font-mono text-label-sm text-teal-300"
+          className="flex items-center gap-2 rounded-xl border border-teal-500/20 bg-teal-500/10 p-3 font-mono text-label-sm text-teal-700 dark:text-teal-300"
         >
-          <Icon name="done_all" className="text-[18px] text-teal-400" />
+          <Icon name="done_all" className="text-[18px] text-primary" />
           Opening your email app with the message ready to send.
         </p>
       )}
       <button
         type="submit"
-        className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-teal-400 px-6 py-3 text-body-sm font-semibold text-teal-950 shadow-md shadow-teal-500/20 transition-all hover:bg-teal-300 active:scale-[0.99]"
+        className="mt-2 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-body-sm font-semibold text-white shadow-md shadow-teal-500/20 transition-all hover:bg-teal-500 active:scale-[0.99] dark:bg-teal-400 dark:text-teal-950 dark:hover:bg-teal-300"
       >
         <Icon name="send" className="text-[18px]" />
         Transmit Message

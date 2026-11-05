@@ -29,8 +29,8 @@ export function TechStack() {
                 onClick={() => setFilter(id)}
                 className={`rounded-full px-4 py-1.5 font-mono text-label-sm transition-all ${
                   active
-                    ? "bg-surface-container-high text-teal-300"
-                    : "text-on-surface-variant hover:text-teal-300"
+                    ? "bg-surface-container-high font-semibold text-primary dark:text-teal-300"
+                    : "text-on-surface-variant hover:text-primary"
                 }`}
               >
                 {label}
@@ -48,18 +48,18 @@ export function TechStack() {
           >
             <div
               aria-hidden="true"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-container-high font-mono text-label-md font-bold text-teal-400"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-container-high font-mono text-label-md font-bold text-primary"
             >
               {item.abbr}
             </div>
             <div className="flex min-w-0 flex-col gap-1">
-              <span className="truncate text-headline-sm text-on-surface">
+              <span className="text-headline-sm text-on-surface">
                 {item.name}
               </span>
-              <span className="text-body-sm text-on-surface-variant">
+              <span className="text-body-sm leading-relaxed text-on-surface-variant">
                 {item.detail}
               </span>
-              <span className="mt-1 font-mono text-label-sm text-teal-400">
+              <span className="mt-1 font-mono text-label-sm text-primary">
                 {item.badge}
               </span>
             </div>

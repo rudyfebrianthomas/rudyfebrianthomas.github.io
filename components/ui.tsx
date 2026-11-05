@@ -21,7 +21,7 @@ export function Tag({
     <span
       className={`rounded-full border px-3.5 py-1 text-label-sm font-mono ${
         accent
-          ? "border-teal-500/20 bg-surface-container text-teal-300"
+          ? "border-teal-500/20 bg-surface-container text-teal-700 dark:text-teal-300"
           : "border-surface-container-highest bg-surface-container text-on-surface"
       }`}
     >

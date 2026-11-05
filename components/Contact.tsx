@@ -21,9 +21,9 @@ export function Contact() {
           <div className="flex flex-col gap-3 pt-2">
             <a href={`mailto:${profile.email}`} className={linkRowClass}>
               <span className="flex items-center gap-3">
-                <Icon name="mail" className="text-[20px] text-teal-400" />
+                <Icon name="mail" className="text-[20px] text-primary" />
                 <span className="flex flex-col font-mono text-label-sm">
-                  <span className="font-medium text-on-surface group-hover:text-teal-300">
+                  <span className="font-medium text-on-surface group-hover:text-primary">
                     {profile.email}
                   </span>
                   <span className="text-on-surface-variant">
@@ -33,7 +33,7 @@ export function Contact() {
               </span>
               <Icon
                 name="open_in_new"
-                className="text-[18px] text-on-surface-variant transition-colors group-hover:text-teal-400"
+                className="text-[18px] text-on-surface-variant transition-colors group-hover:text-primary"
               />
             </a>
             <a
@@ -43,9 +43,9 @@ export function Contact() {
               className={linkRowClass}
             >
               <span className="flex items-center gap-3">
-                <Icon name="call" className="text-[20px] text-teal-400" />
+                <Icon name="call" className="text-[20px] text-primary" />
                 <span className="flex flex-col font-mono text-label-sm">
-                  <span className="font-medium text-on-surface group-hover:text-teal-300">
+                  <span className="font-medium text-on-surface group-hover:text-primary">
                     {profile.phone}
                   </span>
                   <span className="text-on-surface-variant">
@@ -55,12 +55,12 @@ export function Contact() {
               </span>
               <Icon
                 name="open_in_new"
-                className="text-[18px] text-on-surface-variant transition-colors group-hover:text-teal-400"
+                className="text-[18px] text-on-surface-variant transition-colors group-hover:text-primary"
               />
             </a>
             <div className={rowClass}>
               <span className="flex items-center gap-3">
-                <Icon name="location_on" className="text-[20px] text-teal-400" />
+                <Icon name="location_on" className="text-[20px] text-primary" />
                 <span className="flex flex-col font-mono text-label-sm">
                   <span className="font-medium text-on-surface">
                     Indonesia / Jakarta

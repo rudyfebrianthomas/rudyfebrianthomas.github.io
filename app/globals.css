@@ -2,19 +2,52 @@
 @import "tw-animate-css";
 @import "lenis/dist/lenis.css";
 
-/* Design tokens from the "Vanguard Precision" Stitch design system (dark teal theme). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Light mode tokens (from the Stitch light-mode screen). */
+:root {
+  --background: #faf9ff;
+  --surface: #faf9ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f8fafc;
+  --surface-container: #f1f5f9;
+  --surface-container-high: #e2e8f0;
+  --surface-container-highest: #cbd5e1;
+  --on-surface: #0f172a;
+  --on-surface-variant: #475569;
+  --primary: #0d9488;
+  --secondary: #0d9488;
+  color-scheme: light;
+}
+
+/* Dark mode tokens (from the "Vanguard Precision" Stitch dark teal theme). */
+html.dark {
+  --background: #0c1115;
+  --surface: #0c1115;
+  --surface-container-lowest: #0a0f12;
+  --surface-container-low: #11181c;
+  --surface-container: #161e22;
+  --surface-container-high: #1e2930;
+  --surface-container-highest: #2d3748;
+  --on-surface: #f1f5f9;
+  --on-surface-variant: #9ca3af;
+  --primary: #2dd4bf;
+  --secondary: #2dd4bf;
+  color-scheme: dark;
+}
+
 @theme inline {
-  --color-background: #0c1115;
-  --color-surface: #0c1115;
-  --color-surface-container-lowest: #0a0f12;
-  --color-surface-container-low: #11181c;
-  --color-surface-container: #161e22;
-  --color-surface-container-high: #1e2930;
-  --color-surface-container-highest: #2d3748;
-  --color-on-surface: #f1f5f9;
-  --color-on-surface-variant: #9ca3af;
-  --color-primary: #2dd4bf;
-  --color-secondary: #2dd4bf;
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
@@ -58,7 +91,6 @@
 html {
   /* Native fallback when JS is unavailable. Lenis takes over once running. */
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 /* Lenis drives the easing itself; native smoothing would fight it. */
@@ -78,7 +110,6 @@ body {
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
-  display: inline-block;
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;

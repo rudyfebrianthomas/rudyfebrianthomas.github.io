@@ -40,7 +40,7 @@ export function TypingText({ words }: TypingTextProps) {
   }, [words]);
 
   return (
-    <span className="bg-gradient-to-r from-teal-400 via-teal-300 to-cyan-400 bg-clip-text font-semibold text-transparent">
+    <span className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 bg-clip-text font-semibold text-transparent dark:from-teal-400 dark:via-teal-300 dark:to-cyan-400">
       {/* Zero-width space keeps the line height while the text is empty. */}
       {text || "\u200b"}
     </span>

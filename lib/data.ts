@@ -3,16 +3,15 @@ export const profile = {
   roles: [
     "Frontend Developer",
     "Frontend Engineer",
-    "Fullstack Developer",
-    "Fullstack Engineer",
   ],
   summary:
     "Frontend Web Developer with 6+ years of experience delivering scalable, high-performance web applications. Skilled in React.js, TypeScript, and modern frontend architecture to build clean, maintainable systems. Strong Agile collaborator adept at transforming complex requirements into reliable user experiences.",
   email: "rudyfebrian6@gmail.com",
   phone: "+62 85155441891",
   whatsapp: "https://wa.me/6285155441891",
-  github: "https://github.com/rudyfebrian",
-  linkedin: "https://linkedin.com/in/rudy-febrian-thomas",
+  github: "https://github.com/rudyfebrianthomas",
+  linkedin: "https://linkedin.com/in/rudyfebrianthomas",
+  resumeUrl: "/CV_RUDY_FEBRIAN_THOMAS.pdf",
 } as const;
 
 export const navLinks = [
@@ -26,7 +25,7 @@ export const navLinks = [
 
 export const experience = {
   title: "Frontend Web Developer",
-  tenure: "7 Years Tenure",
+  tenure: "7 Years of Professional Experience",
   company: "CIMB Niaga · OCTO Web & Internal Configuration Portal",
   period: "Mar 2019 – Feb 2026",
   description:
@@ -40,10 +39,11 @@ export const experience = {
   tags: [
     "React.js",
     "TypeScript",
-    "Next.js",
-    "Vue.js",
     "Tailwind CSS",
-    "Banking Security",
+    "Redux Toolkit",
+    "Vue.js",
+    "Agile / Scrum",
+    "Jira & Confluence",
   ],
 } as const;
 
@@ -80,92 +80,130 @@ export const techItems: {
   {
     abbr: "RE",
     name: "React.js",
-    detail: "Component Architecture, Hooks, State",
+    detail:
+      "Modular component architecture, custom hooks, lifecycle optimization, and high-availability UI flows for internet banking.",
     badge: "Core Expertise · 6+ Years",
     category: "core",
   },
   {
-    abbr: "TS",
-    name: "TypeScript & JavaScript",
-    detail: "Strict Typing, ES6+, Clean Code",
-    badge: "Daily Production Standard",
+    abbr: "NX",
+    name: "Next.js",
+    detail:
+      "App Router, Server & Client Components, static exports (SSG), SSR, and performance-focused web application architecture.",
+    badge: "Modern React Framework",
     category: "core",
   },
   {
-    abbr: "NX",
-    name: "Next.js & Vue.js",
-    detail: "SSR, Hybrid Architecture, Admin Portals",
-    badge: "Framework Precision",
+    abbr: "VU",
+    name: "Vue.js",
+    detail:
+      "Enterprise internal configuration portals, reactive form workflows, and centralized administrative dashboards.",
+    badge: "Enterprise Admin Portals",
+    category: "core",
+  },
+  {
+    abbr: "RX",
+    name: "Redux Toolkit & State Management",
+    detail:
+      "Predictable global state slices, async thunks, normalized caching, and complex multi-step transaction state flows.",
+    badge: "Scalable State Architecture",
     category: "core",
   },
   {
     abbr: "TW",
-    name: "Tailwind CSS, HTML & CSS",
-    detail: "Responsive Layouts, Design Systems",
-    badge: "Pixel-Perfect UI",
+    name: "Tailwind CSS & UI Architecture",
+    detail:
+      "Utility-first styling, responsive mobile-first layouts, dark/light design tokens, and reusable component systems.",
+    badge: "Design System & UI Craft",
     category: "core",
   },
   {
     abbr: "ND",
     name: "Node.js & Express.js",
-    detail: "REST APIs, Backend Integration",
-    badge: "Fullstack Proficiency",
+    detail:
+      "RESTful API development and integration, authentication middleware, payload validation, and backend service orchestration.",
+    badge: "Fullstack Integration",
+    category: "core",
+  },
+  {
+    abbr: "TS",
+    name: "TypeScript & JavaScript (ES6+)",
+    detail:
+      "Strict static typing, interfaces & generics, asynchronous patterns, and clean, maintainable production code.",
+    badge: "Primary Programming Languages",
+    category: "core",
+  },
+  {
+    abbr: "HC",
+    name: "HTML5 & CSS3",
+    detail:
+      "Semantic accessible markup (WCAG/ARIA), modern Flexbox & Grid layouts, custom properties, and cross-browser compatibility.",
+    badge: "Web Standards & Accessibility",
     category: "core",
   },
   {
     abbr: "AG",
-    name: "Agile / Scrum",
-    detail: "Sprint planning, standups, retro",
-    badge: "Iterative Delivery",
+    name: "Agile / Scrum Delivery",
+    detail:
+      "End-to-end sprint execution—backlog refinement, story estimation, daily standups, sprint reviews, and retrospectives.",
+    badge: "Enterprise Banking Sprints",
     category: "methodology",
   },
   {
     abbr: "JC",
-    name: "Jira & Confluence",
-    detail: "Task tracking, sprint documentation",
-    badge: "Project Management",
+    name: "Git, Jira & Confluence",
+    detail:
+      "Feature-branch & pull-request workflows, structured issue tracking, technical specifications, and release documentation.",
+    badge: "Version Control & Docs",
     category: "methodology",
   },
   {
     abbr: "TM",
     name: "Cross-Functional Collaboration",
-    detail: "Seamless alignment with Backend, QA & Product",
-    badge: "Team Synergy",
+    detail:
+      "Close alignment with Backend, QA, UI/UX, and Product teams to translate complex banking requirements into secure releases.",
+    badge: "Product · QA · Backend Sync",
     category: "methodology",
   },
   {
     abbr: "LN",
-    name: "Languages",
-    detail: "Indonesian (Native) · English (Intermediate)",
-    badge: "Bilingual Communication",
+    name: "Indonesian & English",
+    detail:
+      "Indonesian (Native) and English (Intermediate) for daily engineering collaboration, documentation, and stakeholder syncs.",
+    badge: "Spoken Languages · ID & EN",
     category: "languages",
   },
 ];
 
-export const projects = [
+export type ProjectItem = {
+  name: string;
+  status: string;
+  image?: string;
+  imageAlt: string;
+  description: string;
+  stack: readonly string[];
+  repoUrl?: string | null;
+  demoUrl?: string | null;
+};
+
+export const projects: readonly ProjectItem[] = [
   {
-    name: "Chronos Telemetry Cloud",
+    name: "CIMB Niaga · OCTO Web Internet Banking",
     status: "Live Production",
-    image: "/images/project-chronos.jpg",
+    image: "/images/project-octo-web.png",
     imageAlt:
-      "Dark analytics dashboard with data visualization cards and purple sparklines",
+      "Live preview of CIMB Niaga OCTO Web internet banking portal (cimbocto.co.id)",
     description:
-      "Real-time distributed tracing platform with sub-second aggregate graphs for multi-region microservices. Processes over 50,000 metrics per second.",
-    stack: ["Next.js 14", "ClickHouse", "Apache Kafka", "Tailwind"],
-    repoUrl: "https://github.com/rudyfebrian",
-    demoUrl: null,
+      "Enterprise retail internet banking portal serving CIMB Niaga customers across Indonesia. Engineered and maintained high-availability frontend modules using React.js, TypeScript, and Redux Toolkit—covering account dashboards, fund transfers, bill payments, investment flows, and multi-factor transaction verification.",
+    stack: [
+      "React.js",
+      "TypeScript",
+      "Redux Toolkit",
+      "Tailwind CSS",
+      "REST APIs",
+    ],
+    repoUrl: null,
+    demoUrl: "https://www.cimbocto.co.id/",
   },
-  {
-    name: "Stratos Token Engine",
-    status: "Open Source",
-    image: "/images/project-stratos.jpg",
-    imageAlt:
-      "Code editor with a design token configurator and live component previews",
-    description:
-      "Automated CLI and AST analyzer that parses Figma Variables and compiles them directly into typed Tailwind plugins and CSS custom properties.",
-    stack: ["TypeScript", "Node CLI", "Figma REST API", "Turborepo"],
-    repoUrl: "https://github.com/rudyfebrian",
-    demoUrl: null,
-  },
-] as const;
+];
 

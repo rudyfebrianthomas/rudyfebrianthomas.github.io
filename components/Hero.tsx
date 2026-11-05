@@ -42,7 +42,7 @@ export function Hero() {
               <TypingText words={profile.roles} />
               <span
                 aria-hidden="true"
-                className="ml-0.5 animate-pulse font-light text-teal-400 select-none"
+                className="ml-0.5 animate-pulse font-light text-primary select-none"
               >
                 |
               </span>
@@ -54,18 +54,18 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <a
               href="#contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-teal-400 to-secondary px-6 py-3 text-body-sm font-semibold text-teal-950 shadow-md shadow-teal-500/20 transition-all hover:from-teal-300 hover:to-teal-400 active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 px-6 py-3 text-body-sm font-semibold text-white shadow-md shadow-teal-500/20 transition-all hover:from-teal-600 hover:to-teal-700 active:scale-[0.98] dark:from-teal-400 dark:to-secondary dark:text-teal-950 dark:hover:from-teal-300 dark:hover:to-teal-400"
             >
               Start Collaboration
               <Icon name="arrow_forward" className="text-[18px]" />
             </a>
             <a
               href="#projects"
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-teal-500/10 bg-surface-container-high/90 px-5 py-3 text-body-sm font-medium text-on-surface shadow-sm transition-all hover:bg-surface-container-highest hover:text-teal-300"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-teal-500/15 bg-surface-container-high/90 px-5 py-3 text-body-sm font-medium text-on-surface shadow-sm transition-all hover:bg-surface-container-highest hover:text-primary"
             >
               <Icon
                 name="terminal"
-                className="text-[18px] text-teal-400 transition-transform group-hover:scale-105"
+                className="text-[18px] text-primary transition-transform group-hover:scale-105"
               />
               Explore Architecture
             </a>
@@ -100,9 +100,9 @@ export function Hero() {
               {...("external" in s
                 ? { target: "_blank", rel: "noreferrer" }
                 : {})}
-              className="inline-flex items-center gap-2 rounded-full border border-surface-container-highest bg-surface-container-lowest/80 px-3.5 py-1.5 font-mono text-label-sm text-on-surface-variant shadow-sm transition-colors hover:bg-surface-container hover:text-teal-300"
+              className="inline-flex items-center gap-2 rounded-full border border-surface-container-highest bg-surface-container-lowest/80 px-3.5 py-1.5 font-mono text-label-sm text-on-surface-variant shadow-sm transition-colors hover:bg-surface-container hover:text-primary"
             >
-              <Icon name={s.icon} className="text-[16px] text-teal-400" />
+              <Icon name={s.icon} className="text-[16px] text-primary" />
               {s.label}
             </a>
           </li>

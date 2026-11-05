@@ -20,17 +20,17 @@ export function Experience() {
               <h3 className="text-headline-md tracking-tight text-on-surface">
                 {experience.title}
               </h3>
-              <span className="rounded-full border border-teal-500/20 bg-teal-500/20 px-3 py-1 font-mono text-label-sm font-semibold text-teal-300">
+              <span className="rounded-full border border-teal-500/20 bg-teal-500/15 px-3 py-1 font-mono text-label-sm font-semibold text-teal-700 dark:bg-teal-500/20 dark:text-teal-300">
                 {experience.tenure}
               </span>
             </div>
-            <p className="flex items-center gap-2 text-body-md font-medium text-teal-400">
+            <p className="flex items-center gap-2 text-body-md font-medium text-primary">
               <Icon name="account_balance" className="text-[18px]" />
               {experience.company}
             </p>
           </div>
           <p className="flex items-center gap-2 self-start rounded-full border border-surface-container-highest bg-surface-container px-3.5 py-1.5 font-mono text-label-sm text-on-surface-variant md:self-auto">
-            <Icon name="calendar_today" className="text-[16px] text-teal-400" />
+            <Icon name="calendar_today" className="text-[16px] text-primary" />
             {experience.period}
           </p>
         </div>
@@ -45,7 +45,7 @@ export function Experience() {
             >
               <Icon
                 name="verified"
-                className="mt-0.5 shrink-0 text-[18px] text-teal-400"
+                className="mt-0.5 shrink-0 text-[18px] text-primary"
               />
               <span>
                 <Highlight text={h} />
@@ -56,7 +56,7 @@ export function Experience() {
         <ul className="flex flex-wrap gap-2 border-t border-teal-500/10 pt-4">
           {experience.tags.map((tag) => (
             <li key={tag}>
-              <Tag accent={tag === "Banking Security"}>{tag}</Tag>
+              <Tag>{tag}</Tag>
             </li>
           ))}
         </ul>
