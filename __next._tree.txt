@@ -1,0 +1,6 @@
+:HL["/_next/static/chunks/0yd_p79kcxfnv.css","style"]
+:HL["/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap","style"]
+1:[["children",{"s":"__PAGE__","h":160}]]
+0:{"b":"AiWlm1j2OpXQOPasoulFN","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
