@@ -12,7 +12,7 @@ Act as a senior software engineer with 10+ years of experience in modern fronten
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/postcss`) + semantic CSS custom properties in `app/globals.css`
 - **Motion & Interactions:** `lenis` (smooth scrolling + anchor offset) & `tw-animate-css` (IntersectionObserver scroll-reveal via `components/Reveal.tsx`)
 - **Typography & Icons:** Google Fonts (`Geist`, `JetBrains Mono`) via `next/font/google` and Material Symbols Outlined
-- **Deployment:** GitHub Pages (`gh-pages -d out -t true`, with `public/.nojekyll`)
+- **Deployment:** GitHub Pages (`gh-pages -d out -t`, with `public/.nojekyll`)
 
 ## Project Structure
 
