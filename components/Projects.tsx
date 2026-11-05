@@ -1,5 +1,9 @@
 import Image from "next/image";
-import { projects, type ProjectItem } from "@/lib/data";
+import {
+  personalProjects,
+  professionalProjects,
+  type ProjectItem,
+} from "@/lib/data";
 import { Icon } from "./Icon";
 import { SectionHeading, Tag } from "./ui";
 
@@ -26,12 +30,33 @@ function getHostname(url: string): string {
   }
 }
 
-export function Projects() {
+function ProjectGroup({
+  title,
+  subtitle,
+  icon,
+  items,
+}: {
+  title: string;
+  subtitle: string;
+  icon: string;
+  items: readonly ProjectItem[];
+}) {
   return (
-    <section id="projects" className="flex scroll-mt-24 flex-col gap-8">
-      <SectionHeading>Projects</SectionHeading>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-1 border-b border-teal-500/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2.5">
+          <Icon name={icon} className="text-[20px] text-primary" />
+          <h3 className="text-headline-md font-semibold tracking-tight text-on-surface">
+            {title}
+          </h3>
+        </div>
+        <span className="font-mono text-label-sm text-on-surface-variant">
+          {subtitle}
+        </span>
+      </div>
+
       <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {projects.map((project) => {
+        {items.map((project) => {
           const previewSrc = getPreviewSrc(project);
           return (
             <li
@@ -71,9 +96,9 @@ export function Projects() {
               <div className="flex flex-1 flex-col justify-between gap-4 p-8">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-headline-md font-bold text-on-surface">
+                    <h4 className="text-headline-md font-bold text-on-surface">
                       {project.name}
-                    </h3>
+                    </h4>
                     <div className="flex shrink-0 items-center gap-1.5">
                       {project.repoUrl && (
                         <a
@@ -115,6 +140,26 @@ export function Projects() {
           );
         })}
       </ul>
+    </div>
+  );
+}
+
+export function Projects() {
+  return (
+    <section id="projects" className="flex scroll-mt-24 flex-col gap-12">
+      <SectionHeading>Projects</SectionHeading>
+      <ProjectGroup
+        title="Professional Projects"
+        subtitle="Enterprise & Production Systems"
+        icon="domain"
+        items={professionalProjects}
+      />
+      <ProjectGroup
+        title="Personal Projects"
+        subtitle="Independent & Open-Source Explorations"
+        icon="terminal"
+        items={personalProjects}
+      />
     </section>
   );
 }

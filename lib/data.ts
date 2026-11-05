@@ -186,7 +186,7 @@ export type ProjectItem = {
   demoUrl?: string | null;
 };
 
-export const projects: readonly ProjectItem[] = [
+export const professionalProjects: readonly ProjectItem[] = [
   {
     name: "CIMB Niaga · OCTO Web Internet Banking",
     status: "Live Production",
@@ -204,6 +204,27 @@ export const projects: readonly ProjectItem[] = [
     ],
     repoUrl: null,
     demoUrl: "https://www.cimbocto.co.id/",
+  },
+];
+
+export const personalProjects: readonly ProjectItem[] = [
+  {
+    name: "Interactive Portfolio & Resume SPA",
+    status: "Open Source",
+    image: "/images/project-profile.png",
+    imageAlt:
+      "Interactive Next.js portfolio and resume website with dark and light theme",
+    description:
+      "Personal developer portfolio and interactive resume engineered with Next.js App Router, strict TypeScript, and Tailwind CSS v4. Features dark/light design-token theming, Lenis smooth inertial scrolling, and static export deployment to GitHub Pages.",
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Lenis Smooth Scroll",
+      "GitHub Pages",
+    ],
+    repoUrl: "https://github.com/rudyfebrianthomas/rudyfebrianthomas.github.io",
+    demoUrl: "https://rudyfebrianthomas.github.io/",
   },
 ];
 
