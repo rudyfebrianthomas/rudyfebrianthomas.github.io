@@ -36,7 +36,7 @@ export function Footer() {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          {[links[0], links[2], links[3]].map((link) => (
+          {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -44,7 +44,7 @@ export function Footer() {
               {...("external" in link
                 ? { target: "_blank", rel: "noreferrer" }
                 : {})}
-              className="p-1 text-on-surface-variant transition-colors hover:text-teal-300"
+              className="p-1 text-on-surface-variant transition-colors hover:text-primary"
             >
               <Icon name={link.icon} className="text-[20px]" />
             </a>
