@@ -7,13 +7,13 @@ const socials = [
   {
     href: profile.github,
     icon: "code",
-    label: "GitHub / Rudy Febrian Thomas",
+    label: "GitHub",
     external: true,
   },
   {
     href: profile.linkedin,
     icon: "share",
-    label: "LinkedIn / Rudy Febrian Thomas",
+    label: "LinkedIn",
     external: true,
   },
   { href: `mailto:${profile.email}`, icon: "mail", label: profile.email },
@@ -67,7 +67,7 @@ export function Hero() {
                 name="terminal"
                 className="text-[18px] text-primary transition-transform group-hover:scale-105"
               />
-              Explore Architecture
+              View My Work
             </a>
           </div>
         </div>

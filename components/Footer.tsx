@@ -5,16 +5,20 @@ const links = [
   {
     href: profile.github,
     icon: "code",
-    label: "GitHub / Rudy Febrian Thomas",
+    label: "GitHub",
     external: true,
   },
   {
     href: profile.linkedin,
     icon: "share",
-    label: "LinkedIn / Rudy Febrian Thomas",
+    label: "LinkedIn",
     external: true,
   },
-  { href: `mailto:${profile.email}`, icon: "mail", label: profile.email },
+  {
+    href: `mailto:${profile.email}`,
+    icon: "mail",
+    label: profile.email
+  },
   {
     href: profile.whatsapp,
     icon: "call",
