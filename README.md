@@ -3,7 +3,7 @@
 Personal portfolio and interactive resume website for **Rudy Febrian Thomas** (Frontend Developer), engineered as a high-performance static Single-Page Application (SPA) and deployed on GitHub Pages.
 
 - **Live Site:** [https://rudyfebrianthomas.github.io/](https://rudyfebrianthomas.github.io/)
-- **Author:** Rudy Febrian Thomas ([GitHub](https://github.com/rudyfebrianthomas) · [LinkedIn](https://linkedin.com/in/rudy-febrian-thomas-234263119))
+- **Author:** Rudy Febrian Thomas ([GitHub](https://github.com/rudyfebrianthomas) · [LinkedIn](https://linkedin.com/in/rudyfebrianthomas))
 
 ---
 
