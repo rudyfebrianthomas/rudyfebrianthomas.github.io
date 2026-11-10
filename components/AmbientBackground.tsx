@@ -67,13 +67,13 @@ export function AmbientBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      <div className="absolute -top-40 left-1/2 h-[380px] w-[720px] -translate-x-1/2 rounded-full bg-teal-500/10 blur-[130px]" />
-      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-teal-400/5 blur-[140px]" />
-      <div className="absolute bottom-20 -left-20 h-[420px] w-[420px] rounded-full bg-cyan-500/10 blur-[130px]" />
+      <div className="absolute -top-40 left-1/2 h-95 w-180 -translate-x-1/2 rounded-full bg-teal-500/10 blur-[130px]" />
+      <div className="absolute top-1/3 -right-32 h-120 w-120 rounded-full bg-teal-400/5 blur-[140px]" />
+      <div className="absolute bottom-20 -left-20 h-105 w-105 rounded-full bg-cyan-500/10 blur-[130px]" />
       <canvas ref={canvasRef} className="h-full w-full opacity-40" />
       <div
         ref={glowRef}
-        className="absolute top-0 left-0 h-[500px] w-[500px] rounded-full bg-teal-500/10 opacity-0 blur-[120px] transition-opacity duration-300"
+        className="absolute top-0 left-0 h-125 w-125 rounded-full bg-teal-500/10 opacity-0 blur-[120px] transition-opacity duration-300"
       />
     </div>
   );

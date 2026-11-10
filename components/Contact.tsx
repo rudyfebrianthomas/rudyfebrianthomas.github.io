@@ -63,10 +63,10 @@ export function Contact() {
                 <Icon name="location_on" className="text-[20px] text-primary" />
                 <span className="flex flex-col font-mono text-label-sm">
                   <span className="font-medium text-on-surface">
-                    Indonesia / Jakarta
+                    {profile.location}
                   </span>
                   <span className="text-on-surface-variant">
-                    WIB Timezone (UTC+7)
+                    {profile.timezone}
                   </span>
                 </span>
               </span>

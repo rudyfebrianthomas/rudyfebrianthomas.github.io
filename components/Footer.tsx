@@ -1,31 +1,6 @@
-import { profile } from "@/lib/data";
+import { profile, socialLinks } from "@/lib/data";
 import { Icon } from "./Icon";
-
-const links = [
-  {
-    href: profile.github,
-    icon: "code",
-    label: "GitHub",
-    external: true,
-  },
-  {
-    href: profile.linkedin,
-    icon: "share",
-    label: "LinkedIn",
-    external: true,
-  },
-  {
-    href: `mailto:${profile.email}`,
-    icon: "mail",
-    label: profile.email
-  },
-  {
-    href: profile.whatsapp,
-    icon: "call",
-    label: profile.phone,
-    external: true,
-  },
-] as const;
+import { CurrentYear } from "./CurrentYear";
 
 export function Footer() {
   return (
@@ -36,11 +11,11 @@ export function Footer() {
             {profile.name} · Frontend Developer
           </span>
           <p className="text-body-sm text-on-surface-variant">
-            © {new Date().getFullYear()} {profile.name}. All rights reserved.
+            © <CurrentYear buildYear={new Date().getFullYear()} /> {profile.name}. All rights reserved.
           </p>
         </div>
         <div className="flex items-center gap-4">
-          {links.map((link) => (
+          {socialLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}

@@ -27,7 +27,6 @@ export function Header() {
           <ThemeToggle />
           <a
             href={profile.resumeUrl}
-            download="CV_RUDY_FEBRIAN_THOMAS.pdf"
             className="inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-surface-container-high px-3.5 py-1.5 text-body-sm font-medium text-on-surface transition-colors hover:bg-surface-container-highest hover:text-primary"
           >
             <Icon name="download" className="text-[16px]" />

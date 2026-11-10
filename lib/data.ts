@@ -11,8 +11,17 @@ export const profile = {
   whatsapp: "https://wa.me/6285155441891",
   github: "https://github.com/rudyfebrianthomas",
   linkedin: "https://linkedin.com/in/rudyfebrianthomas",
-  resumeUrl: "/CV_RUDY_FEBRIAN_THOMAS.pdf",
+  location: "Indonesia / Jakarta",
+  timezone: "WIB Timezone (UTC+7)",
+  resumeUrl: "https://drive.google.com/uc?export=download&id=1KLzxsuzFp-kzC2-HlqaYeKcFy6Le0esp",
 } as const;
+
+export const socialLinks = [
+  { href: profile.github, icon: "code", label: "GitHub", external: true },
+  { href: profile.linkedin, icon: "share", label: "LinkedIn", external: true },
+  { href: `mailto:${profile.email}`, icon: "mail", label: "Email", external: true },
+  { href: profile.whatsapp, icon: "call", label: "WhatsApp", external: true },
+] as const;
 
 export const navLinks = [
   { href: "#hero", label: "Profile" },
@@ -178,7 +187,7 @@ export const techItems: {
 export type ProjectItem = {
   name: string;
   status: string;
-  image?: string;
+  image: string;
   imageAlt: string;
   description: string;
   stack: readonly string[];
@@ -190,7 +199,7 @@ export const professionalProjects: readonly ProjectItem[] = [
   {
     name: "CIMB Niaga · OCTO Web Internet Banking",
     status: "Live Production",
-    image: "/images/project-octo-web.png",
+    image: "/images/projects/project-octo-web.webp",
     imageAlt:
       "Live preview of CIMB Niaga OCTO Web internet banking portal (cimbocto.co.id)",
     description:
@@ -209,22 +218,65 @@ export const professionalProjects: readonly ProjectItem[] = [
 
 export const personalProjects: readonly ProjectItem[] = [
   {
-    name: "Interactive Portfolio & Resume SPA",
-    status: "Open Source",
-    image: "/images/project-profile.png",
+    name: "Rudy Febrian Thomas — Portfolio & Resume",
+    status: "Live Site",
+    image: "/images/projects/project-profile.webp",
     imageAlt:
-      "Interactive Next.js portfolio and resume website with dark and light theme",
+      "Rudy Febrian Thomas's frontend developer portfolio and interactive resume",
     description:
-      "Personal developer portfolio and interactive resume engineered with Next.js App Router, strict TypeScript, and Tailwind CSS v4. Features dark/light design-token theming, Lenis smooth inertial scrolling, and static export deployment to GitHub Pages.",
+      "A responsive portfolio and interactive resume showcasing frontend experience, education, skills, and projects. Features a filterable tech stack, light and dark themes, smooth scrolling, a downloadable resume, and an email contact form.",
     stack: [
       "Next.js",
+      "React",
       "TypeScript",
       "Tailwind CSS v4",
-      "Lenis Smooth Scroll",
+      "Lenis",
+      "tw-animate-css",
       "GitHub Pages",
     ],
     repoUrl: "https://github.com/rudyfebrianthomas/rudyfebrianthomas.github.io",
     demoUrl: "https://rudyfebrianthomas.github.io/",
+  },
+  {
+    name: "Tech Career Buddy - Konsultan Karir IT AI",
+    status: "Live Site",
+    image: "/images/projects/project-tech-buddy.webp",
+    imageAlt:
+      "Tech Career Buddy chat interface with a conversation about IT careers",
+    description:
+      "Gemini-powered IT career chatbot offering career guidance, learning roadmaps, and CV and portfolio reviews. Supports PDF, image, and audio uploads for feedback, including mock interview practice.",
+    stack: [
+      "Node.js",
+      "Express",
+      "Google Gemini AI",
+      "JavaScript",
+      "HTML & CSS",
+      "Multer",
+      "marked.js",
+    ],
+    repoUrl: "https://github.com/rudyfebrianthomas/final-project-maju-bareng-AI",
+    demoUrl: "https://final-project-maju-bareng-ai.vercel.app/",
+  },
+  {
+    name: "Febrian Thomas — Illustrator Portfolio",
+    status: "Live Site",
+    image: "/images/projects/project-ft.webp",
+    imageAlt: "Preview of Febrian Thomas's illustration portfolio website",
+    description:
+      "A bilingual portfolio for illustrator and 2D animator Febrian Thomas, showcasing illustrations, projects, and posts. Includes search, tags, light and dark themes, and an owner-managed rich-text editor.",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Supabase",
+      "Tiptap",
+      "Motion",
+      "Lenis",
+      "GitHub Pages",
+    ],
+    repoUrl: "https://github.com/febrianthomas/febrianthomas.github.io",
+    demoUrl: "https://febrianthomas.github.io/",
   },
 ];
 

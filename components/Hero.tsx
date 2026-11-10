@@ -1,29 +1,7 @@
 import Image from "next/image";
-import { profile } from "@/lib/data";
+import { profile, socialLinks } from "@/lib/data";
 import { Icon } from "./Icon";
 import { TypingText } from "./TypingText";
-
-const socials = [
-  {
-    href: profile.github,
-    icon: "code",
-    label: "GitHub",
-    external: true,
-  },
-  {
-    href: profile.linkedin,
-    icon: "share",
-    label: "LinkedIn",
-    external: true,
-  },
-  { href: `mailto:${profile.email}`, icon: "mail", label: profile.email },
-  {
-    href: profile.whatsapp,
-    icon: "call",
-    label: profile.phone,
-    external: true,
-  },
-] as const;
 
 export function Hero() {
   return (
@@ -36,7 +14,7 @@ export function Hero() {
           <h1 className="text-display-hero-mobile tracking-tight text-on-surface md:text-display-hero">
             {profile.name}
           </h1>
-          <p className="flex min-h-[44px] flex-wrap items-center gap-x-2 text-headline-lg tracking-tight text-on-surface md:text-[36px]">
+          <p className="flex min-h-11 flex-wrap items-center gap-x-2 text-headline-lg tracking-tight text-on-surface md:text-[36px]">
             <span className="font-normal text-on-surface-variant">I&apos;m a</span>
             <span>
               <TypingText words={profile.roles} />
@@ -54,7 +32,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <a
               href="#contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 px-6 py-3 text-body-sm font-semibold text-white shadow-md shadow-teal-500/20 transition-all hover:from-teal-600 hover:to-teal-700 active:scale-[0.98] dark:from-teal-400 dark:to-secondary dark:text-teal-950 dark:hover:from-teal-300 dark:hover:to-teal-400"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-teal-500 to-teal-600 px-6 py-3 text-body-sm font-semibold text-white shadow-md shadow-teal-500/20 transition-all hover:from-teal-600 hover:to-teal-700 active:scale-[0.98] dark:from-teal-400 dark:to-secondary dark:text-teal-950 dark:hover:from-teal-300 dark:hover:to-teal-400"
             >
               Start Collaboration
               <Icon name="arrow_forward" className="text-[18px]" />
@@ -80,7 +58,7 @@ export function Hero() {
           <div className="group relative rounded-full border border-teal-500/20 bg-surface-container-low/80 p-2.5 shadow-xl backdrop-blur-xl">
             <div className="relative h-64 w-64 overflow-hidden rounded-full border border-teal-500/30 md:h-80 md:w-80">
               <Image
-                src="/images/avatar.jpg"
+                src="/images/avatar.webp"
                 alt="Rudy Febrian Thomas - Frontend Web Developer"
                 width={640}
                 height={640}
@@ -93,7 +71,7 @@ export function Hero() {
       </div>
 
       <ul className="flex flex-wrap items-center gap-3 pt-2">
-        {socials.map((s) => (
+        {socialLinks.map((s) => (
           <li key={s.href}>
             <a
               href={s.href}

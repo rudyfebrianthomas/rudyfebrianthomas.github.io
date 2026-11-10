@@ -12,18 +12,12 @@ export function SectionHeading({ children }: SectionHeadingProps) {
 
 export function Tag({
   children,
-  accent = false,
 }: {
   children: string;
-  accent?: boolean;
 }) {
   return (
     <span
-      className={`rounded-full border px-3.5 py-1 text-label-sm font-mono ${
-        accent
-          ? "border-teal-500/20 bg-surface-container text-teal-700 dark:text-teal-300"
-          : "border-surface-container-highest bg-surface-container text-on-surface"
-      }`}
+      className="rounded-full border border-surface-container-highest bg-surface-container px-3.5 py-1 font-mono text-label-sm text-on-surface"
     >
       {children}
     </span>
