@@ -4,9 +4,9 @@ import { SectionHeading, Tag } from "./ui";
 
 export function Education() {
   return (
-    <section id="education" className="flex scroll-mt-24 flex-col gap-8">
+    <section id="education" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-8">
       <SectionHeading>Education</SectionHeading>
-      <article className="rounded-2xl border border-teal-500/10 bg-surface-container-low/60 p-8 shadow-md backdrop-blur-xl transition-all hover:bg-surface-container-low">
+      <article className="rounded-2xl border border-teal-500/10 bg-surface-container-low/60 p-5 shadow-md backdrop-blur-xl transition-all hover:bg-surface-container-low sm:p-8">
         <div className="flex flex-col justify-between gap-4 border-b border-teal-500/10 pb-4 md:flex-row md:items-center">
           <div className="flex flex-col gap-1.5">
             <h3 className="text-headline-md tracking-tight text-on-surface">

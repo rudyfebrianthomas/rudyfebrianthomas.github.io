@@ -3,8 +3,8 @@
 import Lenis from "lenis";
 import { useEffect } from "react";
 
-/** Header height (4rem) plus breathing room, so sections aren't hidden under the fixed nav. */
-const ANCHOR_OFFSET = -96;
+/** Space for the mobile header and breathing room. */
+const ANCHOR_OFFSET = -176;
 
 /**
  * Inertial page scrolling, and eased scrolling to `#section` links.

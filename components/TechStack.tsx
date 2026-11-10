@@ -11,13 +11,13 @@ export function TechStack() {
   );
 
   return (
-    <section id="tech-stack" className="flex scroll-mt-24 flex-col gap-8">
+    <section id="tech-stack" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-8">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <SectionHeading>Tech Stack</SectionHeading>
         <div
           role="group"
           aria-label="Filter tech stack"
-          className="flex flex-wrap items-center self-start rounded-full bg-surface-container p-1 md:self-auto"
+          className="flex flex-wrap items-center self-start rounded-2xl bg-surface-container p-1 md:self-auto md:rounded-full"
         >
           {techFilters.map(({ id, label }) => {
             const active = filter === id;
@@ -27,7 +27,7 @@ export function TechStack() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setFilter(id)}
-                className={`rounded-full px-4 py-1.5 font-mono text-label-sm transition-all ${
+                className={`min-h-11 rounded-full px-4 py-1.5 font-mono text-label-sm transition-all md:min-h-0 ${
                   active
                     ? "bg-surface-container-high font-semibold text-primary dark:text-teal-300"
                     : "text-on-surface-variant hover:text-primary"

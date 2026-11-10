@@ -16,8 +16,8 @@ export default function Home() {
       <SmoothScroll />
       <AmbientBackground />
       <Header />
-      <main className="relative z-10 w-full flex-1 pt-16">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-28 px-6 py-12 lg:px-12">
+      <main className="relative z-10 w-full flex-1 pt-38.5 md:pt-16">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 py-8 sm:px-6 md:gap-28 md:py-12 lg:px-12">
           <Reveal>
             <Hero />
           </Reveal>

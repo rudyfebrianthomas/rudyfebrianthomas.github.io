@@ -5,7 +5,7 @@ import { profile } from "@/lib/data";
 import { Icon } from "./Icon";
 
 const fieldClass =
-  "rounded-xl border border-surface-container-highest bg-surface-container px-4 py-2.5 text-body-sm text-on-surface shadow-sm placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-teal-400 focus:outline-none";
+  "min-w-0 rounded-xl border border-surface-container-highest bg-surface-container px-4 py-2.5 text-base text-on-surface shadow-sm placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-teal-400 focus:outline-none md:text-body-sm";
 const labelClass = "font-mono text-label-sm font-medium text-on-surface";
 
 /**

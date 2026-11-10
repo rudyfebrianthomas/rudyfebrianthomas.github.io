@@ -11,9 +11,9 @@ function Highlight({ text }: { text: string }) {
 
 export function Experience() {
   return (
-    <section id="experience" className="flex scroll-mt-24 flex-col gap-10">
+    <section id="experience" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-10">
       <SectionHeading>Work Experience</SectionHeading>
-      <article className="relative overflow-hidden rounded-2xl border border-teal-500/10 bg-surface-container-low/70 p-8 shadow-lg backdrop-blur-xl transition-all hover:border-teal-500/30 hover:bg-surface-container-low">
+      <article className="relative overflow-hidden rounded-2xl border border-teal-500/10 bg-surface-container-low/70 p-5 shadow-lg backdrop-blur-xl transition-all hover:border-teal-500/30 hover:bg-surface-container-low sm:p-8">
         <div className="flex flex-col justify-between gap-4 border-b border-teal-500/10 pb-4 md:flex-row md:items-center">
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-wrap items-center gap-3">

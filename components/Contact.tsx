@@ -9,7 +9,7 @@ const linkRowClass = `${rowClass} group text-left transition-colors hover:bg-sur
 
 export function Contact() {
   return (
-    <section id="contact" className="flex scroll-mt-24 flex-col gap-10 pb-12">
+    <section id="contact" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-10 pb-12">
       <SectionHeading>Contact</SectionHeading>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="flex flex-col gap-4 rounded-2xl border border-teal-500/10 bg-surface-container-low/70 p-6 shadow-md backdrop-blur-xl lg:col-span-5">
@@ -74,7 +74,7 @@ export function Contact() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-teal-500/10 bg-surface-container-low/70 p-8 shadow-md backdrop-blur-xl lg:col-span-7">
+        <div className="min-w-0 rounded-2xl border border-teal-500/10 bg-surface-container-low/70 p-5 shadow-md backdrop-blur-xl sm:p-8 lg:col-span-7">
           <ContactForm />
         </div>
       </div>

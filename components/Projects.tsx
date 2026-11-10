@@ -37,10 +37,10 @@ function ProjectCard({ project }: { project: ProjectItem }) {
             href={project.demoUrl}
             target="_blank"
             rel="noreferrer"
-            className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-surface-container-lowest/85 px-3 py-1 font-mono text-label-sm text-on-surface shadow-sm backdrop-blur-md transition-colors hover:border-teal-500/40 hover:text-primary"
+            className="absolute top-4 left-4 inline-flex max-w-[calc(100%-7rem)] items-center gap-1.5 rounded-full border border-teal-500/20 bg-surface-container-lowest/85 px-3 py-1 font-mono text-label-sm text-on-surface shadow-sm backdrop-blur-md transition-colors hover:border-teal-500/40 hover:text-primary"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span>{getHostname(project.demoUrl)}</span>
+            <span className="truncate">{getHostname(project.demoUrl)}</span>
             <Icon name="north_east" className="text-[13px]" />
           </a>
         )}
@@ -48,7 +48,7 @@ function ProjectCard({ project }: { project: ProjectItem }) {
           {project.status}
         </span>
       </div>
-      <div className="flex flex-1 flex-col justify-between gap-4 p-8">
+      <div className="flex flex-1 flex-col justify-between gap-4 p-5 sm:p-8">
         <div className="flex flex-col gap-4">
           <div className="flex items-start justify-between gap-3">
             <h4 className="text-headline-md font-bold text-on-surface">
@@ -61,7 +61,7 @@ function ProjectCard({ project }: { project: ProjectItem }) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${project.name} GitHub repository`}
-                  className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
                 >
                   <Icon name="code" className="text-[18px]" />
                 </a>
@@ -72,7 +72,7 @@ function ProjectCard({ project }: { project: ProjectItem }) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`Visit ${project.name} live site`}
-                  className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
                 >
                   <Icon name="open_in_new" className="text-[18px]" />
                 </a>
@@ -131,7 +131,7 @@ function ProjectGroup({
 
 export function Projects() {
   return (
-    <section id="projects" className="flex scroll-mt-24 flex-col gap-12">
+    <section id="projects" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-12">
       <SectionHeading>Projects</SectionHeading>
       <ProjectGroup
         title="Professional Projects"
