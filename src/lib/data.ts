@@ -315,5 +315,24 @@ export const personalProjects: readonly ProjectItem[] = [
     repoUrl: "https://github.com/febrianthomas/febrianthomas.github.io",
     demoUrl: "https://febrianthomas.github.io/",
   },
+  {
+    name: "Febrian Thomas — Commission Kanban",
+    status: "Open Source",
+    image: "/images/projects/project-ft-kanban.webp",
+    imageAlt: "Landing hero of the Febrian Thomas Commission Kanban web app",
+    description:
+      "Commission queue tracker, request portal, and owner workspace for illustrator febrianthomas. Features live kanban boards, commission slot intake with WebP uploads, bilingual EN/ID UI, and theme switching.",
+    stack: [
+      "Vue 3",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Supabase",
+      "Reka UI",
+      "motion-v",
+      "Lenis",
+    ],
+    repoUrl: "https://github.com/rudyfebrianthomas/febrianthomas-kanban",
+    demoUrl: null,
+  },
 ];
 
