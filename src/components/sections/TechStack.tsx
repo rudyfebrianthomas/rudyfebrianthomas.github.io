@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -11,9 +11,7 @@ import {
   type TechCategory,
   type TechItem,
 } from "@/lib/data";
-
-const AUTO_SCROLL_PX_PER_SEC = 28;
-const USER_COOLDOWN_MS = 2500;
+import { useHorizontalCarousel } from "@/lib/useHorizontalCarousel";
 
 const TECH_ICON_MAP: Record<
   string,
@@ -35,242 +33,30 @@ const TECH_ICON_MAP: Record<
 
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
-  const [canLoop, setCanLoop] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
   const [tooltip, setTooltip] = useState<{
     item: TechItem;
     index: number;
     x: number;
   } | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
   const tooltipId = useId();
-  const scrollPosRef = useRef(0);
-  const targetScrollRef = useRef(0);
-  const hoveringRef = useRef(false);
-  const focusedRef = useRef(false);
-  const draggingRef = useRef(false);
-  const cooldownUntilRef = useRef(0);
 
   const visible = techItems.filter(
     (item) => filter === "all" || item.category === filter,
   );
+
+  const { listRef, canLoop, isDragging, reset, containerHandlers } =
+    useHorizontalCarousel({
+      itemCount: visible.length,
+      onUserInteract: () => setTooltip(null),
+    });
+
   const renderedItems = canLoop ? [...visible, ...visible] : visible;
-
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-
-    const getLoopWidth = () => {
-      if (!canLoop) return 0;
-      const duplicateStart = el.children[visible.length] as
-        | HTMLElement
-        | undefined;
-      return duplicateStart ? duplicateStart.offsetLeft : 0;
-    };
-
-    const checkOverflow = () => {
-      if (!canLoop && el.scrollWidth > el.clientWidth + 1) {
-        setCanLoop(true);
-      } else if (canLoop) {
-        const lw = getLoopWidth();
-        if (lw > 0 && lw <= el.clientWidth + 1) {
-          setCanLoop(false);
-        }
-      }
-    };
-
-    const observer = new ResizeObserver(checkOverflow);
-    observer.observe(el);
-
-    const markUserScroll = () => {
-      cooldownUntilRef.current = performance.now() + USER_COOLDOWN_MS;
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) {
-        if (Math.abs(e.deltaX) > 0) {
-          markUserScroll();
-          scrollPosRef.current = el.scrollLeft;
-          targetScrollRef.current = el.scrollLeft;
-        }
-        return;
-      }
-
-      const lw = getLoopWidth();
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (maxScroll <= 1) return;
-
-      const step =
-        e.deltaMode === 1
-          ? e.deltaY * 20
-          : e.deltaMode === 2
-            ? e.deltaY * el.clientWidth
-            : e.deltaY;
-
-      if (!canLoop || lw <= 0) {
-        const scrollingRight = step > 0 && el.scrollLeft < maxScroll - 1;
-        const scrollingLeft = step < 0 && el.scrollLeft > 1;
-        if (!scrollingRight && !scrollingLeft) return;
-      }
-
-      e.preventDefault();
-      e.stopPropagation();
-      setTooltip(null);
-      markUserScroll();
-
-      let nextTarget = targetScrollRef.current + step;
-      if (canLoop && lw > 0 && nextTarget < 0) {
-        scrollPosRef.current += lw;
-        nextTarget += lw;
-        el.scrollLeft = scrollPosRef.current;
-      } else if (!canLoop) {
-        nextTarget = Math.min(Math.max(nextTarget, 0), maxScroll);
-      }
-      targetScrollRef.current = nextTarget;
-    };
-
-    let dragStartX = 0;
-    let dragStartScroll = 0;
-
-    const onPointerDown = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse" || e.button !== 0) return;
-      if (el.scrollWidth <= el.clientWidth + 1) return;
-
-      draggingRef.current = true;
-      setIsDragging(true);
-      setTooltip(null);
-      dragStartX = e.clientX;
-      dragStartScroll = el.scrollLeft;
-      scrollPosRef.current = el.scrollLeft;
-      targetScrollRef.current = el.scrollLeft;
-      markUserScroll();
-    };
-
-    const onPointerMove = (e: PointerEvent) => {
-      if (!draggingRef.current) return;
-      const lw = getLoopWidth();
-      const dx = e.clientX - dragStartX;
-      let next = dragStartScroll - dx;
-
-      if (canLoop && lw > 0) {
-        while (next < 0) {
-          dragStartScroll += lw;
-          next += lw;
-        }
-        while (next >= lw) {
-          dragStartScroll -= lw;
-          next -= lw;
-        }
-      }
-
-      el.scrollLeft = next;
-      scrollPosRef.current = el.scrollLeft;
-      targetScrollRef.current = el.scrollLeft;
-      markUserScroll();
-    };
-
-    const onPointerUp = () => {
-      if (!draggingRef.current) return;
-      draggingRef.current = false;
-      setIsDragging(false);
-      markUserScroll();
-    };
-
-    const onTouchStart = () => {
-      markUserScroll();
-      scrollPosRef.current = el.scrollLeft;
-      targetScrollRef.current = el.scrollLeft;
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("pointerdown", onPointerDown);
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
-    window.addEventListener("pointercancel", onPointerUp);
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    let rafId = 0;
-    let lastTime = performance.now();
-
-    const tick = (now: number) => {
-      const dt = Math.min(now - lastTime, 100);
-      lastTime = now;
-
-      const lw = getLoopWidth();
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      const wheelDiff = targetScrollRef.current - scrollPosRef.current;
-      const wheelActive = Math.abs(wheelDiff) > 0.5;
-
-      if (draggingRef.current) {
-        // Pointer drag directly drives scrollLeft.
-      } else if (wheelActive) {
-        const factor = 1 - Math.exp((-12 * dt) / 1000);
-        scrollPosRef.current += wheelDiff * factor;
-        if (canLoop && lw > 0) {
-          while (scrollPosRef.current >= lw) {
-            scrollPosRef.current -= lw;
-            targetScrollRef.current -= lw;
-          }
-          while (scrollPosRef.current < 0) {
-            scrollPosRef.current += lw;
-            targetScrollRef.current += lw;
-          }
-        }
-        el.scrollLeft = scrollPosRef.current;
-      } else {
-        const userBusy =
-          hoveringRef.current ||
-          focusedRef.current ||
-          now < cooldownUntilRef.current;
-
-        if (userBusy || reducedMotion || maxScroll <= 1) {
-          scrollPosRef.current = el.scrollLeft;
-          targetScrollRef.current = el.scrollLeft;
-        } else {
-          scrollPosRef.current += (AUTO_SCROLL_PX_PER_SEC * dt) / 1000;
-          if (canLoop && lw > 0) {
-            while (scrollPosRef.current >= lw) {
-              scrollPosRef.current -= lw;
-            }
-          } else if (scrollPosRef.current >= maxScroll) {
-            scrollPosRef.current = 0;
-          }
-          targetScrollRef.current = scrollPosRef.current;
-          el.scrollLeft = scrollPosRef.current;
-        }
-      }
-
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      observer.disconnect();
-      el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("pointerdown", onPointerDown);
-      el.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("pointercancel", onPointerUp);
-    };
-  }, [canLoop, filter, visible.length]);
 
   const handleFilterChange = (id: "all" | TechCategory) => {
     setFilter(id);
-    setCanLoop(false);
     setTooltip(null);
-    scrollPosRef.current = 0;
-    targetScrollRef.current = 0;
-    cooldownUntilRef.current = 0;
-    if (listRef.current) {
-      listRef.current.scrollLeft = 0;
-    }
+    reset();
   };
 
   const showTooltipForCard = (
@@ -278,7 +64,7 @@ export function TechStack() {
     index: number,
     cardEl: HTMLLIElement,
   ) => {
-    if (draggingRef.current) return;
+    if (isDragging) return;
     const wrapEl = wrapperRef.current;
     if (!wrapEl) return;
 
@@ -327,19 +113,15 @@ export function TechStack() {
       <div
         ref={wrapperRef}
         className="relative"
-        onMouseEnter={() => {
-          hoveringRef.current = true;
-        }}
+        onMouseEnter={containerHandlers.onMouseEnter}
         onMouseLeave={() => {
-          hoveringRef.current = false;
+          containerHandlers.onMouseLeave();
           setTooltip(null);
         }}
-        onFocus={() => {
-          focusedRef.current = true;
-        }}
+        onFocus={containerHandlers.onFocus}
         onBlur={(e) => {
+          containerHandlers.onBlur(e);
           if (!e.currentTarget.contains(e.relatedTarget)) {
-            focusedRef.current = false;
             setTooltip(null);
           }
         }}

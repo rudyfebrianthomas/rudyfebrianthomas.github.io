@@ -8,10 +8,12 @@ function ProjectIconLink({
   href,
   icon,
   label,
+  tabIndex,
 }: {
   href: string;
   icon: string;
   label: string;
+  tabIndex?: number;
 }) {
   return (
     <a
@@ -19,6 +21,8 @@ function ProjectIconLink({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
+      tabIndex={tabIndex}
+      draggable={false}
       className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
     >
       <Icon name={icon} className="text-[18px]" />
@@ -26,15 +30,30 @@ function ProjectIconLink({
   );
 }
 
-export function ProjectCard({ project }: { project: ProjectItem }) {
+export function ProjectCard({
+  project,
+  isDuplicate = false,
+  singleItem = false,
+}: {
+  project: ProjectItem;
+  isDuplicate?: boolean;
+  singleItem?: boolean;
+}) {
+  const linkTabIndex = isDuplicate ? -1 : undefined;
   return (
-    <li className="group flex flex-col overflow-hidden rounded-2xl border border-teal-500/12 bg-surface-container-low transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:shadow-lg">
+    <li
+      aria-hidden={isDuplicate || undefined}
+      className={`group flex shrink-0 flex-col overflow-hidden rounded-2xl border border-teal-500/12 bg-surface-container-low transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:shadow-lg ${
+        singleItem ? "w-full md:w-[calc(50%-1rem)]" : "w-[88%] md:w-[calc(50%-1rem)]"
+      }`}
+    >
       <div className="relative aspect-16/10 w-full overflow-hidden border-b border-teal-500/10 bg-surface-container">
         <Image
           src={project.image}
           alt={project.imageAlt}
           width={800}
           height={500}
+          draggable={false}
           className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
         <div
@@ -46,6 +65,8 @@ export function ProjectCard({ project }: { project: ProjectItem }) {
             href={project.demoUrl}
             target="_blank"
             rel="noreferrer"
+            tabIndex={linkTabIndex}
+            draggable={false}
             className="absolute top-4 left-4 inline-flex max-w-[calc(100%-2rem)] items-center gap-1.5 rounded-full border border-teal-500/20 bg-surface-container-lowest/90 px-3 py-1 font-mono text-label-sm text-on-surface shadow-sm backdrop-blur-md transition-colors duration-150 hover:border-teal-500/40 hover:text-primary"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
@@ -66,6 +87,7 @@ export function ProjectCard({ project }: { project: ProjectItem }) {
                   href={project.repoUrl}
                   icon="code"
                   label={`${project.name} GitHub repository`}
+                  tabIndex={linkTabIndex}
                 />
               )}
               {project.demoUrl && (
@@ -73,6 +95,7 @@ export function ProjectCard({ project }: { project: ProjectItem }) {
                   href={project.demoUrl}
                   icon="open_in_new"
                   label={`Visit ${project.name} live site`}
+                  tabIndex={linkTabIndex}
                 />
               )}
             </div>
