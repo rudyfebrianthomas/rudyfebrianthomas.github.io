@@ -135,7 +135,7 @@ export function TechStack() {
           ref={listRef}
           tabIndex={canLoop ? 0 : undefined}
           aria-label={techStackSection.carouselLabel}
-          className={`-mx-0.5 flex select-none gap-3.5 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:gap-4 ${
+          className={`-mx-0.5 flex select-none gap-3.5 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 scrollbar-none [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:gap-4 ${
             canLoop
               ? isDragging
                 ? "cursor-grabbing"
