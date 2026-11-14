@@ -237,7 +237,7 @@ export type ProjectItem = {
 
 export const professionalProjects: readonly ProjectItem[] = [
   {
-    name: "CIMB Niaga · OCTO Web Internet Banking",
+    name: "CIMB Niaga — OCTO Web Internet Banking",
     image: "/images/projects/project-octo-web.webp",
     imageAlt:
       "Live preview of CIMB Niaga OCTO Web internet banking portal (cimbocto.co.id)",
