@@ -45,20 +45,21 @@ npm run build  # Build the static site into out/
 ## Project structure
 
 ```text
-app/                     Page composition, metadata, global styles, and theme setup
-components/
-  layout/                Header, footer, theme toggle, smooth scrolling, and ambient background
-  sections/              Hero, experience, education, tech stack, projects, and contact sections
-  ui/                    Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge, Reveal, TypingText)
-lib/
-  data.ts                Profile, navigation, experience, skills, and project content with types
-  url.ts                 URL formatting and external-link attribute helpers
+src/
+  app/                   Page composition, metadata, global styles, and theme setup
+  components/
+    layout/              Header, footer, theme toggle, smooth scrolling, and ambient background
+    sections/            Hero, experience, education, tech stack, projects, and contact sections
+    ui/                  Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge, Reveal, TypingText)
+  lib/
+    data.ts              Profile, navigation, experience, skills, and project content with types
+    url.ts               URL formatting and external-link attribute helpers
 public/                  Images and other static assets
 next.config.ts           Static export configuration
 .github/workflows/       GitHub Pages deployment workflow
 ```
 
-Edit `lib/data.ts` to update portfolio content and links, including the Google Drive resume download URL. Replace images in `public/` when their source files change. Theme tokens live in `app/globals.css`; page metadata and fonts are configured in `app/layout.tsx`.
+Edit `src/lib/data.ts` to update portfolio content and links, including the Google Drive resume download URL. Replace images in `public/` when their source files change. Theme tokens live in `src/app/globals.css`; page metadata and fonts are configured in `src/app/layout.tsx`.
 
 ## Deployment
 
