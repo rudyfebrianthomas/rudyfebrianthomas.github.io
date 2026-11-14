@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useRef, useState } from "react";
+import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -11,6 +11,7 @@ import {
   type TechCategory,
   type TechItem,
 } from "@/lib/data";
+import { useCardTooltip } from "@/lib/useCardTooltip";
 import { useHorizontalCarousel } from "@/lib/useHorizontalCarousel";
 
 const TECH_ICON_MAP: Record<
@@ -33,13 +34,8 @@ const TECH_ICON_MAP: Record<
 
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
-  const [tooltip, setTooltip] = useState<{
-    item: TechItem;
-    index: number;
-    x: number;
-  } | null>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const tooltipId = useId();
+  const { tooltip, wrapperRef, tooltipId, show, clear } =
+    useCardTooltip<TechItem>(288);
 
   const visible = techItems.filter(
     (item) => filter === "all" || item.category === filter,
@@ -48,36 +44,15 @@ export function TechStack() {
   const { listRef, canLoop, isDragging, reset, containerHandlers } =
     useHorizontalCarousel({
       itemCount: visible.length,
-      onUserInteract: () => setTooltip(null),
+      onUserInteract: clear,
     });
 
   const renderedItems = canLoop ? [...visible, ...visible] : visible;
 
   const handleFilterChange = (id: "all" | TechCategory) => {
     setFilter(id);
-    setTooltip(null);
+    clear();
     reset();
-  };
-
-  const showTooltipForCard = (
-    item: TechItem,
-    index: number,
-    cardEl: HTMLLIElement,
-  ) => {
-    if (isDragging) return;
-    const wrapEl = wrapperRef.current;
-    if (!wrapEl) return;
-
-    const wrapRect = wrapEl.getBoundingClientRect();
-    const cardRect = cardEl.getBoundingClientRect();
-    const halfMaxWidth = Math.min(144, wrapRect.width / 2 - 12);
-    const rawCenter = cardRect.left - wrapRect.left + cardRect.width / 2;
-    const clampedX = Math.min(
-      Math.max(rawCenter, halfMaxWidth),
-      wrapRect.width - halfMaxWidth,
-    );
-
-    setTooltip({ item, index, x: clampedX });
   };
 
   return (
@@ -116,13 +91,13 @@ export function TechStack() {
         onMouseEnter={containerHandlers.onMouseEnter}
         onMouseLeave={() => {
           containerHandlers.onMouseLeave();
-          setTooltip(null);
+          clear();
         }}
         onFocus={containerHandlers.onFocus}
         onBlur={(e) => {
           containerHandlers.onBlur(e);
           if (!e.currentTarget.contains(e.relatedTarget)) {
-            setTooltip(null);
+            clear();
           }
         }}
       >
@@ -148,16 +123,16 @@ export function TechStack() {
                 aria-hidden={isDuplicate || undefined}
                 tabIndex={isDuplicate ? undefined : 0}
                 aria-describedby={isTooltipActive ? tooltipId : undefined}
-                onMouseEnter={(e) =>
-                  showTooltipForCard(item, index, e.currentTarget)
-                }
-                onMouseLeave={() => setTooltip(null)}
+                onMouseEnter={(e) => {
+                  if (!isDragging) show(item, index, e.currentTarget);
+                }}
+                onMouseLeave={clear}
                 onFocus={(e) => {
-                  if (!isDuplicate) {
-                    showTooltipForCard(item, index, e.currentTarget);
+                  if (!isDuplicate && !isDragging) {
+                    show(item, index, e.currentTarget);
                   }
                 }}
-                onBlur={() => setTooltip(null)}
+                onBlur={clear}
                 className="flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-teal-500/12 bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-48"
               >
                 <div
@@ -209,10 +184,10 @@ export function TechStack() {
             className="pointer-events-none absolute bottom-full z-30 mb-3 w-72 -translate-x-1/2 rounded-xl border border-teal-500/20 bg-surface-container-lowest/95 px-4 py-3 text-left shadow-xl backdrop-blur-md"
           >
             <span className="block font-mono text-label-sm text-primary">
-              {tooltip.item.badge}
+              {tooltip.data.badge}
             </span>
             <p className="mt-1 text-body-sm leading-relaxed text-on-surface-variant">
-              {tooltip.item.detail}
+              {tooltip.data.detail}
             </p>
           </div>
         )}
