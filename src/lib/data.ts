@@ -60,7 +60,7 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem = {
   title: "Frontend Web Developer",
-  tenure: "7 Years of Professional Experience",
+  tenure: "6+ Years of Professional Experience",
   company: "CIMB Niaga · OCTO Web & Internal Configuration Portal",
   period: "Mar 2019 – Feb 2026",
   description:
