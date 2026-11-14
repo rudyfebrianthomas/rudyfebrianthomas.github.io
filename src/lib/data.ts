@@ -13,7 +13,7 @@ export const profile = {
   linkedin: "https://linkedin.com/in/rudyfebrianthomas",
   youtube: "https://www.youtube.com/@rudyft",
   instagram: "https://www.instagram.com/rudyfebrianthomas/",
-  location: "Indonesia / Jakarta",
+  location: "Indonesia",
   timezone: "WIB Timezone (UTC+7)",
   resumeUrl: "https://drive.google.com/uc?export=download&id=1KLzxsuzFp-kzC2-HlqaYeKcFy6Le0esp",
 } as const;
