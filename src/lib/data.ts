@@ -40,7 +40,7 @@ export type NavLink = {
 };
 
 export const navLinks: readonly NavLink[] = [
-  { href: "#hero", label: "Profile" },
+  { href: "#profile", label: "Profile" },
   { href: "#experience", label: "Experience" },
   { href: "#education", label: "Education" },
   { href: "#tech-stack", label: "Tech Stack" },

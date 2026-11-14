@@ -18,9 +18,9 @@ Act as a senior software engineer with 10+ years of experience in modern fronten
 
 - `src/app/layout.tsx` — Root HTML shell, metadata, font variables, Material Symbols stylesheet, and inline theme hydration script (`localStorage.getItem("theme")`).
 - `src/app/globals.css` — Tailwind v4 imports (`tailwindcss`, `tw-animate-css`, `lenis/dist/lenis.css`), `@custom-variant dark`, `:root` (Light) and `html.dark` (Dark) design tokens, and `@theme` mappings.
-- `src/app/page.tsx` — Main page composing `SmoothScroll`, `AmbientBackground`, `Header`, `Hero`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, and `Footer`.
+- `src/app/page.tsx` — Main page composing `SmoothScroll`, `AmbientBackground`, `Header`, `Profile`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, and `Footer`.
 - `src/lib/data.ts` — Single source of truth for all resume/portfolio data (`profile`, `stats`, `experience`, `education`, `techCategories`, `techItems`, `professionalProjects`, `personalProjects`).
-- `src/components/` — Modular UI sections and interactive utilities (`Header`, `ThemeToggle`, `SmoothScroll`, `Reveal`, `Hero`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, `Footer`, `Icon`, `SectionHeading`, `Tag`, `AmbientBackground`).
+- `src/components/` — Modular UI sections and interactive utilities (`Header`, `ThemeToggle`, `SmoothScroll`, `Reveal`, `Profile`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, `Footer`, `Icon`, `SectionHeading`, `Tag`, `AmbientBackground`).
 - `public/` — Static assets (`CV_RUDY_FEBRIAN_THOMAS.pdf`, `.nojekyll`, `images/avatar.jpg`, `images/project-octo-web.png`, `images/project-profile.png`).
 
 ## Engineering Principles & Conventions

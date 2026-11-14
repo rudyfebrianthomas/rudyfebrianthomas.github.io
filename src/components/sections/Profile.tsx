@@ -5,10 +5,10 @@ import { TypingText } from "@/components/ui/TypingText";
 import { profile, socialLinks } from "@/lib/data";
 import { externalLinkProps } from "@/lib/url";
 
-export function Hero() {
+export function Profile() {
   return (
     <Section
-      id="hero"
+      id="profile"
       className="relative items-start gap-8 pt-6 pb-8 md:pt-14"
     >
       <div className="flex w-full flex-col items-center justify-between gap-10 lg:flex-row lg:gap-12">

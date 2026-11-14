@@ -49,7 +49,7 @@ src/
   app/                   Page composition, metadata, global styles, and theme setup
   components/
     layout/              Header, footer, theme toggle, smooth scrolling, and ambient background
-    sections/            Hero, experience, education, tech stack, projects, and contact sections
+    sections/            Profile, experience, education, tech stack, projects, and contact sections
     ui/                  Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge, Reveal, TypingText)
   lib/
     data.ts              Profile, navigation, experience, skills, and project content with types
