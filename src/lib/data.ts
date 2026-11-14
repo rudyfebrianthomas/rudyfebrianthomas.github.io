@@ -11,6 +11,8 @@ export const profile = {
   whatsapp: "https://wa.me/6285155441891",
   github: "https://github.com/rudyfebrianthomas",
   linkedin: "https://linkedin.com/in/rudyfebrianthomas",
+  youtube: "https://www.youtube.com/@rudyft",
+  instagram: "https://www.instagram.com/rudyfebrianthomas/",
   location: "Indonesia / Jakarta",
   timezone: "WIB Timezone (UTC+7)",
   resumeUrl: "https://drive.google.com/uc?export=download&id=1KLzxsuzFp-kzC2-HlqaYeKcFy6Le0esp",
@@ -26,6 +28,8 @@ export type SocialLink = {
 export const socialLinks: readonly SocialLink[] = [
   { href: profile.github, icon: "code", label: "GitHub", external: true },
   { href: profile.linkedin, icon: "share", label: "LinkedIn", external: true },
+  { href: profile.youtube, icon: "smart_display", label: "YouTube", external: true },
+  { href: profile.instagram, icon: "photo_camera", label: "Instagram", external: true },
   { href: `mailto:${profile.email}`, icon: "mail", label: "Email", external: true },
   { href: profile.whatsapp, icon: "call", label: "WhatsApp", external: true },
 ];
@@ -223,7 +227,6 @@ export const techItems: readonly TechItem[] = [
 
 export type ProjectItem = {
   name: string;
-  status: string;
   image: string;
   imageAlt: string;
   description: string;
@@ -235,7 +238,6 @@ export type ProjectItem = {
 export const professionalProjects: readonly ProjectItem[] = [
   {
     name: "CIMB Niaga · OCTO Web Internet Banking",
-    status: "Live Production",
     image: "/images/projects/project-octo-web.webp",
     imageAlt:
       "Live preview of CIMB Niaga OCTO Web internet banking portal (cimbocto.co.id)",
@@ -256,7 +258,6 @@ export const professionalProjects: readonly ProjectItem[] = [
 export const personalProjects: readonly ProjectItem[] = [
   {
     name: "Rudy Febrian Thomas — Portfolio & Resume",
-    status: "Live Site",
     image: "/images/projects/project-profile.webp",
     imageAlt:
       "Rudy Febrian Thomas's frontend developer portfolio and interactive resume",
@@ -276,7 +277,6 @@ export const personalProjects: readonly ProjectItem[] = [
   },
   {
     name: "Tech Career Buddy - Konsultan Karir IT AI",
-    status: "Live Site",
     image: "/images/projects/project-tech-buddy.webp",
     imageAlt:
       "Tech Career Buddy chat interface with a conversation about IT careers",
@@ -296,7 +296,6 @@ export const personalProjects: readonly ProjectItem[] = [
   },
   {
     name: "Febrian Thomas — Illustrator Portfolio",
-    status: "Live Site",
     image: "/images/projects/project-ft.webp",
     imageAlt: "Preview of Febrian Thomas's illustration portfolio website",
     description:
@@ -317,7 +316,6 @@ export const personalProjects: readonly ProjectItem[] = [
   },
   {
     name: "Febrian Thomas — Commission Kanban",
-    status: "Open Source",
     image: "/images/projects/project-ft-kanban.webp",
     imageAlt: "Landing hero of the Febrian Thomas Commission Kanban web app",
     description:
@@ -332,7 +330,7 @@ export const personalProjects: readonly ProjectItem[] = [
       "Lenis",
     ],
     repoUrl: "https://github.com/rudyfebrianthomas/febrianthomas-kanban",
-    demoUrl: null,
+    demoUrl: "https://febrianthomas-kanban.vercel.app/",
   },
 ];
 
