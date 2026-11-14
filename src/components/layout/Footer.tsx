@@ -6,7 +6,7 @@ import { CurrentYear } from "./CurrentYear";
 export function Footer() {
   return (
     <footer className="relative z-10 w-full border-t border-teal-500/10 bg-surface-container-low py-10">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row lg:px-12">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:px-6 md:flex-row lg:px-12">
         <div className="flex flex-col items-center gap-1 md:items-start">
           <span className="font-mono text-label-md font-semibold tracking-tight text-on-surface">
             {profile.name} · Frontend Developer
