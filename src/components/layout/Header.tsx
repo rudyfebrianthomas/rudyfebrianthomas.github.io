@@ -5,7 +5,7 @@ import { ThemeToggle } from "./ThemeToggle";
 export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-surface/80 shadow-[0_1px_8px_rgba(0,0,0,0.04)] backdrop-blur-xl motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-top-4 motion-safe:duration-700">
-      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center px-4 sm:px-6 md:flex md:h-16 md:justify-between md:gap-4 lg:px-12">
+      <div className="relative mx-auto grid w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center px-4 sm:px-6 md:flex md:h-16 md:justify-between md:gap-4 lg:px-12">
         <a
           href="#hero"
           className="z-10 flex h-14 min-w-0 items-center font-mono text-label-md font-semibold tracking-tight md:h-auto md:shrink"
