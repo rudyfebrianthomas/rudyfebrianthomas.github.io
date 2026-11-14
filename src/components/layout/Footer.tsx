@@ -30,7 +30,7 @@ export function Footer() {
               aria-label={link.label}
               title={link.label}
               {...externalLinkProps(link.external)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container hover:text-primary active:translate-y-px active:scale-[0.985]"
+              className="inline-flex size-11 items-center justify-center rounded-full text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container hover:text-primary active:translate-y-px active:scale-[0.985]"
             >
               <Icon name={link.icon} className="text-[20px]" />
             </a>

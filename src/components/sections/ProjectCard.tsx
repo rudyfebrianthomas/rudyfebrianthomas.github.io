@@ -23,7 +23,7 @@ function ProjectIconLink({
       title={label}
       tabIndex={tabIndex}
       draggable={false}
-      className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:bg-surface-container hover:text-primary active:scale-[0.96]"
+      className="flex size-11 items-center justify-center rounded-full text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:bg-surface-container hover:text-primary active:scale-[0.96]"
     >
       <Icon name={icon} className="text-[18px]" />
     </a>
@@ -88,7 +88,7 @@ export function ProjectCard({
           width={800}
           height={500}
           draggable={false}
-          className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          className="size-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
         <div
           aria-hidden="true"
@@ -103,7 +103,7 @@ export function ProjectCard({
             draggable={false}
             className="absolute top-3 left-3 inline-flex min-h-8 max-w-[calc(100%-1.5rem)] items-center gap-1.5 rounded-full border border-teal-500/25 bg-surface-container-lowest/95 px-2.5 py-1 font-mono text-label-sm text-on-surface shadow-sm backdrop-blur-md transition-colors duration-150 hover:border-teal-500/45 hover:text-primary"
           >
-            <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400" />
+            <span className="size-2 shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400" />
             <span className="truncate">{getHostname(project.demoUrl)}</span>
             <Icon name="north_east" className="text-[13px]" />
           </a>

@@ -17,9 +17,6 @@
   --on-surface-variant: #475569;
   --primary: #0f766e;
   --secondary: #0f766e;
-  --ambient-glow-primary: rgba(13, 148, 136, 0.11);
-  --ambient-glow-secondary: rgba(14, 165, 233, 0.08);
-  --ambient-glow-tertiary: rgba(16, 185, 129, 0.06);
   color-scheme: light;
 }
 
@@ -36,9 +33,6 @@ html.dark {
   --on-surface-variant: #9ca3af;
   --primary: #2dd4bf;
   --secondary: #2dd4bf;
-  --ambient-glow-primary: rgba(45, 212, 191, 0.14);
-  --ambient-glow-secondary: rgba(56, 189, 248, 0.08);
-  --ambient-glow-tertiary: rgba(16, 185, 129, 0.07);
   color-scheme: dark;
 }
 

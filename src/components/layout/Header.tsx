@@ -76,7 +76,7 @@ export function Header() {
                 : content.header.openMenuLabel
             }
             onClick={() => setMenuOpen((open) => !open)}
-            className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface md:hidden"
+            className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface md:hidden"
           >
             <Icon
               name={menuOpen ? "close" : "menu"}

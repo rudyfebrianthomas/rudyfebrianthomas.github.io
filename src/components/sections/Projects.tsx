@@ -72,7 +72,7 @@ function ProjectGroup({
                     : `${labels.pausePrefix} ${title}`
                 }
                 onClick={() => setPaused((p) => !p)}
-                className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985]"
+                className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985]"
               >
                 <Icon
                   name={paused ? "play_arrow" : "pause"}

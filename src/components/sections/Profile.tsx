@@ -21,7 +21,7 @@ export function Profile() {
         <div className="flex w-full max-w-2xl flex-1 flex-col items-start gap-4 sm:gap-5">
           <p className="inline-flex items-center gap-2 rounded-full border border-teal-500/20 bg-surface-container px-3.5 py-1.5 font-mono text-label-sm text-primary">
             <span
-              className="h-2 w-2 rounded-full bg-primary"
+              className="size-2 rounded-full bg-primary"
               aria-hidden="true"
             />
             <span>{profileSection.badge}</span>
@@ -74,17 +74,17 @@ export function Profile() {
         <div className="relative flex shrink-0 self-center items-center justify-center lg:self-auto">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute h-56 w-56 rounded-full bg-teal-500/15 blur-[96px] sm:h-72 sm:w-72"
+            className="pointer-events-none absolute size-56 rounded-full bg-teal-500/15 blur-[96px] sm:size-72"
           />
           <div className="relative rounded-full border border-teal-500/20 bg-surface-container-low/85 p-2 shadow-xl backdrop-blur-xl sm:p-2.5">
-            <div className="relative h-48 w-48 overflow-hidden rounded-full border border-teal-500/30 sm:h-64 sm:w-64 lg:h-80 lg:w-80">
+            <div className="relative size-48 overflow-hidden rounded-full border border-teal-500/30 sm:size-64 lg:size-80">
               <Image
                 src="/images/avatar.webp"
                 alt={profileSection.avatarAlt}
                 width={640}
                 height={640}
                 priority
-                className="h-full w-full object-cover"
+                className="size-full object-cover"
               />
             </div>
           </div>

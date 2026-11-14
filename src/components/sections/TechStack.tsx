@@ -104,7 +104,7 @@ export function TechStack() {
                   : techStackSection.pauseLabel
               }
               onClick={() => setPaused((p) => !p)}
-              className="inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985] lg:h-10 lg:w-10"
+              className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985] lg:size-10"
             >
               <Icon
                 name={paused ? "play_arrow" : "pause"}
@@ -174,7 +174,7 @@ export function TechStack() {
               >
                 <div
                   aria-hidden="true"
-                  className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-100 dark:ring-white/10 sm:h-14 sm:w-14"
+                  className="flex size-12 items-center justify-center rounded-xl bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-100 dark:ring-white/10 sm:size-14"
                 >
                   {icon && "src" in icon ? (
                     <Image
@@ -183,7 +183,7 @@ export function TechStack() {
                       width={36}
                       height={36}
                       draggable={false}
-                      className="h-8 w-8 object-contain sm:h-9 sm:w-9"
+                      className="size-8 object-contain sm:size-9"
                     />
                   ) : (
                     <Icon

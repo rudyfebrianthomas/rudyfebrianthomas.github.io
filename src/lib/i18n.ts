@@ -87,7 +87,7 @@ export type LocalizedPortfolioContent = {
     menuTitle: string;
     themeToLight: string;
     themeToDark: string;
-    languageGroupLabel: string;
+    languageToggleLabel: string;
   };
   navLinks: readonly NavLink[];
   profileSection: {
@@ -247,7 +247,7 @@ export function getPortfolioContent(locale: Locale): LocalizedPortfolioContent {
         menuTitle: "Menu",
         themeToLight: "Ubah ke mode terang",
         themeToDark: "Ubah ke mode gelap",
-        languageGroupLabel: "Pilihan bahasa",
+        languageToggleLabel: "Ganti bahasa ke Inggris",
       },
       navLinks: [
         { href: "#profile", label: "Profil" },
@@ -382,7 +382,7 @@ export function getPortfolioContent(locale: Locale): LocalizedPortfolioContent {
       menuTitle: "Menu",
       themeToLight: "Switch to light mode",
       themeToDark: "Switch to dark mode",
-      languageGroupLabel: "Language selection",
+      languageToggleLabel: "Switch language to Indonesian",
     },
     navLinks,
     profileSection: {
