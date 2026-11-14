@@ -6,14 +6,23 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { techFilters, techItems, type TechCategory } from "@/lib/data";
 
+const AUTO_SCROLL_PX_PER_SEC = 28;
+const USER_COOLDOWN_MS = 2500;
+
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
+  const [paused, setPaused] = useState(false);
   const [scrollState, setScrollState] = useState({
     canLeft: false,
     canRight: false,
     progress: 0,
   });
   const listRef = useRef<HTMLUListElement>(null);
+  const scrollPosRef = useRef(0);
+  const hoveringRef = useRef(false);
+  const focusedRef = useRef(false);
+  const cooldownUntilRef = useRef(0);
+  const autoSteppingRef = useRef(false);
 
   const visible = techItems.filter(
     (item) => filter === "all" || item.category === filter,
@@ -33,12 +42,22 @@ export function TechStack() {
     const el = listRef.current;
     if (!el) return;
 
-    const sync = () => setScrollState(readScrollState(el));
+    const sync = () => {
+      scrollPosRef.current = el.scrollLeft;
+      setScrollState(readScrollState(el));
+    };
     const observer = new ResizeObserver(sync);
     observer.observe(el);
 
+    const markUserScroll = () => {
+      cooldownUntilRef.current = performance.now() + USER_COOLDOWN_MS;
+    };
+
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) {
+        if (Math.abs(e.deltaX) > 0) markUserScroll();
+        return;
+      }
       const maxScroll = el.scrollWidth - el.clientWidth;
       if (maxScroll <= 1) return;
 
@@ -54,18 +73,81 @@ export function TechStack() {
 
       e.preventDefault();
       e.stopPropagation();
+      markUserScroll();
       el.scrollLeft += step;
+      scrollPosRef.current = el.scrollLeft;
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", markUserScroll, { passive: true });
+    el.addEventListener("pointerdown", markUserScroll);
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    let rafId = 0;
+    let lastTime = performance.now();
+    let endPauseUntil = 0;
+    let resettingUntil = 0;
+
+    const tick = (now: number) => {
+      const dt = Math.min(now - lastTime, 100);
+      lastTime = now;
+
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      const userBusy =
+        paused ||
+        hoveringRef.current ||
+        focusedRef.current ||
+        now < cooldownUntilRef.current;
+
+      if (userBusy) {
+        endPauseUntil = 0;
+        resettingUntil = 0;
+        scrollPosRef.current = el.scrollLeft;
+      } else if (!reducedMotion && maxScroll > 1) {
+        if (now < resettingUntil) {
+          // Wait for smooth reset back to start.
+        } else if (endPauseUntil > 0) {
+          if (now >= endPauseUntil) {
+            endPauseUntil = 0;
+            resettingUntil = now + 700;
+            scrollPosRef.current = 0;
+            el.scrollTo({ left: 0, behavior: "smooth" });
+          }
+        } else if (el.scrollLeft >= maxScroll - 1) {
+          endPauseUntil = now + 1000;
+        } else {
+          scrollPosRef.current = Math.min(
+            scrollPosRef.current + (AUTO_SCROLL_PX_PER_SEC * dt) / 1000,
+            maxScroll,
+          );
+          autoSteppingRef.current = true;
+          el.scrollLeft = scrollPosRef.current;
+          autoSteppingRef.current = false;
+        }
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    if (!reducedMotion && !paused) {
+      rafId = requestAnimationFrame(tick);
+    }
+
     return () => {
+      cancelAnimationFrame(rafId);
       observer.disconnect();
       el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", markUserScroll);
+      el.removeEventListener("pointerdown", markUserScroll);
     };
-  }, [filter]);
+  }, [filter, paused]);
 
   const handleFilterChange = (id: "all" | TechCategory) => {
     setFilter(id);
+    scrollPosRef.current = 0;
+    cooldownUntilRef.current = 0;
     if (listRef.current) {
       listRef.current.scrollLeft = 0;
     }
@@ -74,6 +156,7 @@ export function TechStack() {
   const scrollByStep = (direction: -1 | 1) => {
     const el = listRef.current;
     if (!el) return;
+    cooldownUntilRef.current = performance.now() + USER_COOLDOWN_MS;
     el.scrollBy({
       left: direction * Math.max(el.clientWidth * 0.75, 280),
       behavior: "smooth",
@@ -110,18 +193,39 @@ export function TechStack() {
         </div>
       </div>
 
-      <div className="relative">
+      <div
+        className="relative"
+        onMouseEnter={() => {
+          hoveringRef.current = true;
+        }}
+        onMouseLeave={() => {
+          hoveringRef.current = false;
+        }}
+        onFocus={() => {
+          focusedRef.current = true;
+        }}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget)) {
+            focusedRef.current = false;
+          }
+        }}
+      >
         <ul
           ref={listRef}
           tabIndex={isScrollable ? 0 : undefined}
           aria-label="Tech stack carousel"
-          onScroll={(e) => setScrollState(readScrollState(e.currentTarget))}
-          className="-mx-0.5 flex snap-x snap-proximity gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          onScroll={(e) => {
+            if (!autoSteppingRef.current) {
+              scrollPosRef.current = e.currentTarget.scrollLeft;
+            }
+            setScrollState(readScrollState(e.currentTarget));
+          }}
+          className="-mx-0.5 flex gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
           {visible.map((item) => (
             <li
               key={item.name}
-              className="flex w-[84%] shrink-0 snap-start items-start gap-4 rounded-2xl border border-teal-500/12 bg-surface-container-low p-5 transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container sm:w-[47%] lg:w-[32%]"
+              className="flex w-[84%] shrink-0 items-start gap-4 rounded-2xl border border-teal-500/12 bg-surface-container-low p-5 transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container sm:w-[47%] lg:w-[32%]"
             >
               <div
                 aria-hidden="true"
@@ -180,6 +284,18 @@ export function TechStack() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
+              aria-pressed={paused}
+              onClick={() => setPaused((prev) => !prev)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-teal-500/15 bg-surface-container-high text-on-surface transition-colors hover:border-teal-500/35 hover:text-primary"
+            >
+              <Icon
+                name={paused ? "play_arrow" : "pause"}
+                className="text-[18px]"
+              />
+            </button>
             <button
               type="button"
               aria-label="Scroll tech stack left"
