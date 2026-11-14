@@ -30,39 +30,45 @@ const TECH_ICON_MAP: Record<
 
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
-  const [scrollState, setScrollState] = useState({
-    canLeft: false,
-    canRight: false,
-  });
+  const [canLoop, setCanLoop] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const scrollPosRef = useRef(0);
+  const targetScrollRef = useRef(0);
   const hoveringRef = useRef(false);
   const focusedRef = useRef(false);
+  const draggingRef = useRef(false);
   const cooldownUntilRef = useRef(0);
-  const autoSteppingRef = useRef(false);
 
   const visible = techItems.filter(
     (item) => filter === "all" || item.category === filter,
   );
-  const isScrollable = scrollState.canLeft || scrollState.canRight;
-
-  const readScrollState = (el: HTMLUListElement) => {
-    const maxScroll = Math.max(el.scrollWidth - el.clientWidth, 0);
-    return {
-      canLeft: el.scrollLeft > 4,
-      canRight: el.scrollLeft < maxScroll - 4,
-    };
-  };
+  const renderedItems = canLoop ? [...visible, ...visible] : visible;
 
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
 
-    const sync = () => {
-      scrollPosRef.current = el.scrollLeft;
-      setScrollState(readScrollState(el));
+    const getLoopWidth = () => {
+      if (!canLoop) return 0;
+      const duplicateStart = el.children[visible.length] as
+        | HTMLElement
+        | undefined;
+      return duplicateStart ? duplicateStart.offsetLeft : 0;
     };
-    const observer = new ResizeObserver(sync);
+
+    const checkOverflow = () => {
+      if (!canLoop && el.scrollWidth > el.clientWidth + 1) {
+        setCanLoop(true);
+      } else if (canLoop) {
+        const lw = getLoopWidth();
+        if (lw > 0 && lw <= el.clientWidth + 1) {
+          setCanLoop(false);
+        }
+      }
+    };
+
+    const observer = new ResizeObserver(checkOverflow);
     observer.observe(el);
 
     const markUserScroll = () => {
@@ -71,9 +77,15 @@ export function TechStack() {
 
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) {
-        if (Math.abs(e.deltaX) > 0) markUserScroll();
+        if (Math.abs(e.deltaX) > 0) {
+          markUserScroll();
+          scrollPosRef.current = el.scrollLeft;
+          targetScrollRef.current = el.scrollLeft;
+        }
         return;
       }
+
+      const lw = getLoopWidth();
       const maxScroll = el.scrollWidth - el.clientWidth;
       if (maxScroll <= 1) return;
 
@@ -83,85 +95,163 @@ export function TechStack() {
           : e.deltaMode === 2
             ? e.deltaY * el.clientWidth
             : e.deltaY;
-      const scrollingRight = step > 0 && el.scrollLeft < maxScroll - 1;
-      const scrollingLeft = step < 0 && el.scrollLeft > 1;
-      if (!scrollingRight && !scrollingLeft) return;
+
+      if (!canLoop || lw <= 0) {
+        const scrollingRight = step > 0 && el.scrollLeft < maxScroll - 1;
+        const scrollingLeft = step < 0 && el.scrollLeft > 1;
+        if (!scrollingRight && !scrollingLeft) return;
+      }
 
       e.preventDefault();
       e.stopPropagation();
       markUserScroll();
-      el.scrollLeft += step;
+
+      let nextTarget = targetScrollRef.current + step;
+      if (canLoop && lw > 0 && nextTarget < 0) {
+        scrollPosRef.current += lw;
+        nextTarget += lw;
+        el.scrollLeft = scrollPosRef.current;
+      } else if (!canLoop) {
+        nextTarget = Math.min(Math.max(nextTarget, 0), maxScroll);
+      }
+      targetScrollRef.current = nextTarget;
+    };
+
+    let dragStartX = 0;
+    let dragStartScroll = 0;
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      if (el.scrollWidth <= el.clientWidth + 1) return;
+
+      draggingRef.current = true;
+      setIsDragging(true);
+      dragStartX = e.clientX;
+      dragStartScroll = el.scrollLeft;
       scrollPosRef.current = el.scrollLeft;
+      targetScrollRef.current = el.scrollLeft;
+      markUserScroll();
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!draggingRef.current) return;
+      const lw = getLoopWidth();
+      const dx = e.clientX - dragStartX;
+      let next = dragStartScroll - dx;
+
+      if (canLoop && lw > 0) {
+        while (next < 0) {
+          dragStartScroll += lw;
+          next += lw;
+        }
+        while (next >= lw) {
+          dragStartScroll -= lw;
+          next -= lw;
+        }
+      }
+
+      el.scrollLeft = next;
+      scrollPosRef.current = el.scrollLeft;
+      targetScrollRef.current = el.scrollLeft;
+      markUserScroll();
+    };
+
+    const onPointerUp = () => {
+      if (!draggingRef.current) return;
+      draggingRef.current = false;
+      setIsDragging(false);
+      markUserScroll();
+    };
+
+    const onTouchStart = () => {
+      markUserScroll();
+      scrollPosRef.current = el.scrollLeft;
+      targetScrollRef.current = el.scrollLeft;
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("touchstart", markUserScroll, { passive: true });
-    el.addEventListener("pointerdown", markUserScroll);
+    el.addEventListener("pointerdown", onPointerDown);
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
     let rafId = 0;
     let lastTime = performance.now();
-    let endPauseUntil = 0;
-    let resettingUntil = 0;
 
     const tick = (now: number) => {
       const dt = Math.min(now - lastTime, 100);
       lastTime = now;
 
+      const lw = getLoopWidth();
       const maxScroll = el.scrollWidth - el.clientWidth;
-      const userBusy =
-        hoveringRef.current ||
-        focusedRef.current ||
-        now < cooldownUntilRef.current;
+      const wheelDiff = targetScrollRef.current - scrollPosRef.current;
+      const wheelActive = Math.abs(wheelDiff) > 0.5;
 
-      if (userBusy) {
-        endPauseUntil = 0;
-        resettingUntil = 0;
-        scrollPosRef.current = el.scrollLeft;
-      } else if (!reducedMotion && maxScroll > 1) {
-        if (now < resettingUntil) {
-          // Wait for smooth reset back to start.
-        } else if (endPauseUntil > 0) {
-          if (now >= endPauseUntil) {
-            endPauseUntil = 0;
-            resettingUntil = now + 700;
-            scrollPosRef.current = 0;
-            el.scrollTo({ left: 0, behavior: "smooth" });
+      if (draggingRef.current) {
+        // Pointer drag directly drives scrollLeft.
+      } else if (wheelActive) {
+        const factor = 1 - Math.exp((-12 * dt) / 1000);
+        scrollPosRef.current += wheelDiff * factor;
+        if (canLoop && lw > 0) {
+          while (scrollPosRef.current >= lw) {
+            scrollPosRef.current -= lw;
+            targetScrollRef.current -= lw;
           }
-        } else if (el.scrollLeft >= maxScroll - 1) {
-          endPauseUntil = now + 1000;
+          while (scrollPosRef.current < 0) {
+            scrollPosRef.current += lw;
+            targetScrollRef.current += lw;
+          }
+        }
+        el.scrollLeft = scrollPosRef.current;
+      } else {
+        const userBusy =
+          hoveringRef.current ||
+          focusedRef.current ||
+          now < cooldownUntilRef.current;
+
+        if (userBusy || reducedMotion || maxScroll <= 1) {
+          scrollPosRef.current = el.scrollLeft;
+          targetScrollRef.current = el.scrollLeft;
         } else {
-          scrollPosRef.current = Math.min(
-            scrollPosRef.current + (AUTO_SCROLL_PX_PER_SEC * dt) / 1000,
-            maxScroll,
-          );
-          autoSteppingRef.current = true;
+          scrollPosRef.current += (AUTO_SCROLL_PX_PER_SEC * dt) / 1000;
+          if (canLoop && lw > 0) {
+            while (scrollPosRef.current >= lw) {
+              scrollPosRef.current -= lw;
+            }
+          } else if (scrollPosRef.current >= maxScroll) {
+            scrollPosRef.current = 0;
+          }
+          targetScrollRef.current = scrollPosRef.current;
           el.scrollLeft = scrollPosRef.current;
-          autoSteppingRef.current = false;
         }
       }
 
       rafId = requestAnimationFrame(tick);
     };
 
-    if (!reducedMotion) {
-      rafId = requestAnimationFrame(tick);
-    }
+    rafId = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(rafId);
       observer.disconnect();
       el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchstart", markUserScroll);
-      el.removeEventListener("pointerdown", markUserScroll);
+      el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
     };
-  }, [filter]);
+  }, [canLoop, filter, visible.length]);
 
   const handleFilterChange = (id: "all" | TechCategory) => {
     setFilter(id);
+    setCanLoop(false);
     scrollPosRef.current = 0;
+    targetScrollRef.current = 0;
     cooldownUntilRef.current = 0;
     if (listRef.current) {
       listRef.current.scrollLeft = 0;
@@ -217,21 +307,23 @@ export function TechStack() {
       >
         <ul
           ref={listRef}
-          tabIndex={isScrollable ? 0 : undefined}
+          tabIndex={canLoop ? 0 : undefined}
           aria-label="Tech stack carousel"
-          onScroll={(e) => {
-            if (!autoSteppingRef.current) {
-              scrollPosRef.current = e.currentTarget.scrollLeft;
-            }
-            setScrollState(readScrollState(e.currentTarget));
-          }}
-          className="-mx-0.5 flex gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          className={`-mx-0.5 flex select-none gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${
+            canLoop
+              ? isDragging
+                ? "cursor-grabbing"
+                : "cursor-grab"
+              : ""
+          }`}
         >
-          {visible.map((item) => {
+          {renderedItems.map((item, index) => {
+            const isDuplicate = canLoop && index >= visible.length;
             const icon = TECH_ICON_MAP[item.abbr];
             return (
               <li
-                key={item.name}
+                key={isDuplicate ? `${item.name}-dup` : item.name}
+                aria-hidden={isDuplicate || undefined}
                 title={item.detail}
                 className="flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-teal-500/12 bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container sm:w-48"
               >
@@ -245,6 +337,7 @@ export function TechStack() {
                       alt=""
                       width={36}
                       height={36}
+                      draggable={false}
                       className="h-9 w-9 object-contain"
                     />
                   ) : (
@@ -262,17 +355,17 @@ export function TechStack() {
           })}
         </ul>
 
-        {scrollState.canLeft && (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-linear-to-r from-background/85 to-transparent"
-          />
-        )}
-        {scrollState.canRight && (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-background via-background/70 to-transparent"
-          />
+        {canLoop && (
+          <>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-linear-to-r from-background/85 to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-background via-background/70 to-transparent"
+            />
+          </>
         )}
       </div>
     </Section>
