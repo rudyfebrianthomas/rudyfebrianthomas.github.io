@@ -17,9 +17,9 @@
   --on-surface-variant: #475569;
   --primary: #0f766e;
   --secondary: #0f766e;
-  --ambient-spotlight: rgba(15, 118, 110, 0.09);
-  --ambient-spotlight-mid: rgba(6, 182, 212, 0.045);
-  --ambient-grid-line: rgba(15, 23, 42, 0.045);
+  --ambient-glow-primary: rgba(13, 148, 136, 0.11);
+  --ambient-glow-secondary: rgba(14, 165, 233, 0.08);
+  --ambient-glow-tertiary: rgba(16, 185, 129, 0.06);
   color-scheme: light;
 }
 
@@ -36,9 +36,9 @@ html.dark {
   --on-surface-variant: #9ca3af;
   --primary: #2dd4bf;
   --secondary: #2dd4bf;
-  --ambient-spotlight: rgba(45, 212, 191, 0.12);
-  --ambient-spotlight-mid: rgba(6, 182, 212, 0.05);
-  --ambient-grid-line: rgba(148, 163, 184, 0.055);
+  --ambient-glow-primary: rgba(45, 212, 191, 0.14);
+  --ambient-glow-secondary: rgba(56, 189, 248, 0.08);
+  --ambient-glow-tertiary: rgba(16, 185, 129, 0.07);
   color-scheme: dark;
 }
 
