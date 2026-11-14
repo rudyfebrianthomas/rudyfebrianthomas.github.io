@@ -48,11 +48,12 @@ npm run build  # Build the static site into out/
 src/
   app/                   Page composition, metadata, global styles, and theme setup
   components/
-    layout/              Header, footer, theme toggle, smooth scrolling, and ambient background
+    layout/              Header, footer, theme toggle, language toggle, smooth scrolling, and ambient background
     sections/            Profile, experience, education, tech stack, projects, and contact sections
     ui/                  Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge)
   lib/
     data.ts              Profile, navigation, experience, skills, and project content with types
+    i18n.ts              Bilingual EN/ID translations and localStorage-backed locale state
     url.ts               URL formatting and external-link attribute helpers
 public/                  Images and other static assets
 next.config.ts           Static export configuration

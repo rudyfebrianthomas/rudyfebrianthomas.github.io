@@ -5,12 +5,8 @@ import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import {
-  techFilters,
-  techItems,
-  type TechCategory,
-  type TechItem,
-} from "@/lib/data";
+import type { TechCategory, TechItem } from "@/lib/data";
+import { getPortfolioContent, useLocale } from "@/lib/i18n";
 import { useCardTooltip } from "@/lib/useCardTooltip";
 import { useHorizontalCarousel } from "@/lib/useHorizontalCarousel";
 
@@ -35,10 +31,12 @@ const TECH_ICON_MAP: Record<
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
   const [paused, setPaused] = useState(false);
+  const [locale] = useLocale();
+  const { techStackSection } = getPortfolioContent(locale);
   const { tooltip, wrapperRef, tooltipId, show, togglePin, clearHover, clear } =
     useCardTooltip<TechItem>(288);
 
-  const visible = techItems.filter(
+  const visible = techStackSection.items.filter(
     (item) => filter === "all" || item.category === filter,
   );
 
@@ -58,16 +56,21 @@ export function TechStack() {
   };
 
   return (
-    <Section id="tech-stack" className="gap-8">
+    <Section id="tech-stack" className="gap-6 sm:gap-8">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-        <SectionHeading>Tech Stack</SectionHeading>
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-col gap-1">
+          <SectionHeading>{techStackSection.heading}</SectionHeading>
+          <p className="font-mono text-label-sm text-on-surface-variant sm:hidden">
+            {techStackSection.touchHint}
+          </p>
+        </div>
+        <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-start sm:gap-2.5">
           <div
             role="group"
-            aria-label="Filter tech stack"
-            className="flex flex-wrap items-center rounded-2xl border border-teal-500/12 bg-surface-container p-1 sm:rounded-full"
+            aria-label={techStackSection.filterGroupLabel}
+            className="flex min-w-0 flex-1 flex-wrap items-center gap-0.5 rounded-2xl border border-teal-500/12 bg-surface-container p-1 sm:flex-initial sm:rounded-full"
           >
-            {techFilters.map(({ id, label }) => {
+            {techStackSection.filters.map(({ id, label }) => {
               const active = filter === id;
               return (
                 <button
@@ -75,7 +78,7 @@ export function TechStack() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => handleFilterChange(id)}
-                  className={`min-h-10 cursor-pointer rounded-full px-4 py-1.5 font-mono text-label-sm transition-colors duration-150 lg:min-h-9 ${
+                  className={`min-h-10 cursor-pointer rounded-full px-3 py-1.5 font-mono text-xs transition-colors duration-150 sm:px-4 sm:text-label-sm lg:min-h-9 ${
                     active
                       ? "bg-surface-container-highest font-semibold text-primary dark:bg-surface-container-high dark:text-teal-300"
                       : "text-on-surface-variant hover:text-primary"
@@ -90,10 +93,18 @@ export function TechStack() {
             <button
               type="button"
               aria-pressed={paused}
-              aria-label={paused ? "Resume tech stack auto-scroll" : "Pause tech stack auto-scroll"}
-              title={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
+              aria-label={
+                paused
+                  ? techStackSection.resumeLabel
+                  : techStackSection.pauseLabel
+              }
+              title={
+                paused
+                  ? techStackSection.resumeLabel
+                  : techStackSection.pauseLabel
+              }
               onClick={() => setPaused((p) => !p)}
-              className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985] lg:h-10 lg:w-10"
+              className="inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985] lg:h-10 lg:w-10"
             >
               <Icon
                 name={paused ? "play_arrow" : "pause"}
@@ -123,8 +134,8 @@ export function TechStack() {
         <ul
           ref={listRef}
           tabIndex={canLoop ? 0 : undefined}
-          aria-label="Tech stack carousel"
-          className={`-mx-0.5 flex select-none gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${
+          aria-label={techStackSection.carouselLabel}
+          className={`-mx-0.5 flex select-none gap-3.5 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:gap-4 ${
             canLoop
               ? isDragging
                 ? "cursor-grabbing"
@@ -138,7 +149,7 @@ export function TechStack() {
             const isTooltipActive = tooltip?.index === index;
             return (
               <li
-                key={isDuplicate ? `${item.name}-dup` : item.name}
+                key={isDuplicate ? `${item.abbr}-dup` : item.abbr}
                 aria-hidden={isDuplicate || undefined}
                 tabIndex={isDuplicate ? undefined : 0}
                 aria-describedby={isTooltipActive ? tooltipId : undefined}
@@ -155,7 +166,7 @@ export function TechStack() {
                   }
                 }}
                 onBlur={clearHover}
-                className={`flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:border-teal-500/35 hover:bg-surface-container hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-48 ${
+                className={`flex w-40 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border bg-surface-container-low px-3.5 py-5 text-center transition-[transform,border-color,background-color,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:border-teal-500/35 hover:bg-surface-container hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-48 sm:px-4 sm:py-6 ${
                   isTooltipActive
                     ? "border-teal-500/40 bg-surface-container shadow-md"
                     : "border-teal-500/12"
@@ -163,7 +174,7 @@ export function TechStack() {
               >
                 <div
                   aria-hidden="true"
-                  className="flex h-14 w-14 items-center justify-center rounded-xl bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-100 dark:ring-white/10"
+                  className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-100 dark:ring-white/10 sm:h-14 sm:w-14"
                 >
                   {icon && "src" in icon ? (
                     <Image
@@ -172,12 +183,12 @@ export function TechStack() {
                       width={36}
                       height={36}
                       draggable={false}
-                      className="h-9 w-9 object-contain"
+                      className="h-8 w-8 object-contain sm:h-9 sm:w-9"
                     />
                   ) : (
                     <Icon
                       name={icon?.material ?? "code"}
-                      className="text-[28px] text-teal-700"
+                      className="text-[26px] text-teal-700 sm:text-[28px]"
                     />
                   )}
                 </div>
@@ -193,11 +204,11 @@ export function TechStack() {
           <>
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-linear-to-r from-background/85 to-transparent"
+              className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-linear-to-r from-background/85 to-transparent sm:w-10"
             />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-background via-background/70 to-transparent"
+              className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-linear-to-l from-background via-background/70 to-transparent sm:w-14"
             />
           </>
         )}

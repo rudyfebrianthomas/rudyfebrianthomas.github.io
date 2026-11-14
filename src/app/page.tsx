@@ -17,9 +17,9 @@ export default function Home() {
       <Header />
       <main
         id="main-content"
-        className="relative z-10 w-full flex-1 pt-38.5 sm:pt-28 lg:pt-16"
+        className="relative z-10 w-full flex-1 pt-14 md:pt-28 lg:pt-16"
       >
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 py-8 sm:px-6 md:gap-28 md:py-12 lg:px-12">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-6 sm:gap-20 sm:px-6 sm:py-8 md:gap-28 md:py-12 lg:px-8 xl:px-12">
           <Profile />
           <Experience />
           <Education />

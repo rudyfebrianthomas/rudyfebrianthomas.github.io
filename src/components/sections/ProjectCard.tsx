@@ -36,6 +36,8 @@ export function ProjectCard({
   singleItem = false,
   isInspected = false,
   describedById,
+  repoLabel,
+  visitLabel,
   onInspectStart,
   onInspectToggle,
   onInspectEnd,
@@ -45,6 +47,8 @@ export function ProjectCard({
   singleItem?: boolean;
   isInspected?: boolean;
   describedById?: string;
+  repoLabel: string;
+  visitLabel: string;
   onInspectStart?: (el: HTMLLIElement) => void;
   onInspectToggle?: (el: HTMLLIElement) => void;
   onInspectEnd?: () => void;
@@ -71,7 +75,11 @@ export function ProjectCard({
       }}
       className={`group flex shrink-0 flex-col overflow-hidden rounded-2xl border bg-surface-container-low transition-[transform,border-color,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:border-teal-500/35 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
         isInspected ? "border-teal-500/40 shadow-lg" : "border-teal-500/12"
-      } ${singleItem ? "w-full sm:w-84" : "w-76 sm:w-84"}`}
+      } ${
+        singleItem
+          ? "w-full sm:w-84"
+          : "w-[min(19rem,calc(100vw-2.5rem))] sm:w-84"
+      }`}
     >
       <div className="relative aspect-16/10 w-full overflow-hidden border-b border-teal-500/10 bg-surface-container">
         <Image
@@ -110,7 +118,7 @@ export function ProjectCard({
             <ProjectIconLink
               href={project.repoUrl}
               icon="code"
-              label={`${project.name} GitHub repository`}
+              label={repoLabel}
               tabIndex={linkTabIndex}
             />
           )}
@@ -118,7 +126,7 @@ export function ProjectCard({
             <ProjectIconLink
               href={project.demoUrl}
               icon="open_in_new"
-              label={`Visit ${project.name} live site`}
+              label={visitLabel}
               tabIndex={linkTabIndex}
             />
           )}

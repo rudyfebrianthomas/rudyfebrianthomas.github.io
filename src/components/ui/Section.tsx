@@ -11,7 +11,7 @@ export function Section({ id, className = "", children }: SectionProps) {
   return (
     <section
       id={id}
-      className={`flex scroll-mt-44 flex-col sm:scroll-mt-32 lg:scroll-mt-24 ${className}`}
+      className={`flex scroll-mt-20 flex-col md:scroll-mt-32 lg:scroll-mt-24 ${className}`}
     >
       {children}
     </section>

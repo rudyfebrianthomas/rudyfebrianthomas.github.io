@@ -5,11 +5,12 @@ import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { TagList } from "@/components/ui/Tag";
+import type { ProjectItem } from "@/lib/data";
 import {
-  personalProjects,
-  professionalProjects,
-  type ProjectItem,
-} from "@/lib/data";
+  getPortfolioContent,
+  type LocalizedPortfolioContent,
+  useLocale,
+} from "@/lib/i18n";
 import { useCardTooltip } from "@/lib/useCardTooltip";
 import { useHorizontalCarousel } from "@/lib/useHorizontalCarousel";
 import { ProjectCard } from "./ProjectCard";
@@ -19,11 +20,13 @@ function ProjectGroup({
   subtitle,
   icon,
   items,
+  labels,
 }: {
   title: string;
   subtitle: string;
   icon: string;
   items: readonly ProjectItem[];
+  labels: LocalizedPortfolioContent["projectsSection"];
 }) {
   const [paused, setPaused] = useState(false);
   const { tooltip, wrapperRef, tooltipId, show, togglePin, clearHover, clear } =
@@ -40,36 +43,50 @@ function ProjectGroup({
   const singleItem = items.length === 1;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5 sm:gap-6">
       <div className="flex flex-col justify-between gap-2 border-b border-teal-500/10 pb-3 sm:flex-row sm:items-center">
         <div className="flex items-center gap-2.5">
           <Icon name={icon} className="text-[20px] text-primary" />
-          <h3 className="text-headline-md font-semibold tracking-tight text-on-surface">
+          <h3 className="text-[20px] font-semibold tracking-tight text-on-surface sm:text-headline-md">
             {title}
           </h3>
         </div>
-        <div className="flex items-center gap-2.5 font-mono text-label-sm text-on-surface-variant">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 font-mono text-label-sm text-on-surface-variant sm:justify-end">
           <span>{subtitle}</span>
-          <span className="rounded-full border border-teal-500/15 bg-surface-container px-2.5 py-0.5 tabular-nums text-primary">
-            {items.length}
-          </span>
-          {canLoop && (
-            <button
-              type="button"
-              aria-pressed={paused}
-              aria-label={paused ? `Resume ${title} auto-scroll` : `Pause ${title} auto-scroll`}
-              title={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
-              onClick={() => setPaused((p) => !p)}
-              className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985]"
-            >
-              <Icon
-                name={paused ? "play_arrow" : "pause"}
-                className="text-[16px]"
-              />
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            <span className="rounded-full border border-teal-500/15 bg-surface-container px-2.5 py-0.5 tabular-nums text-primary">
+              {items.length}
+            </span>
+            {canLoop && (
+              <button
+                type="button"
+                aria-pressed={paused}
+                aria-label={
+                  paused
+                    ? `${labels.resumePrefix} ${title}`
+                    : `${labels.pausePrefix} ${title}`
+                }
+                title={
+                  paused
+                    ? `${labels.resumePrefix} ${title}`
+                    : `${labels.pausePrefix} ${title}`
+                }
+                onClick={() => setPaused((p) => !p)}
+                className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985]"
+              >
+                <Icon
+                  name={paused ? "play_arrow" : "pause"}
+                  className="text-[16px]"
+                />
+              </button>
+            )}
+          </div>
         </div>
       </div>
+
+      <p className="-mt-2 font-mono text-label-sm text-on-surface-variant sm:hidden">
+        {labels.touchHint}
+      </p>
 
       <div
         ref={wrapperRef}
@@ -90,8 +107,8 @@ function ProjectGroup({
         <ul
           ref={listRef}
           tabIndex={canLoop ? 0 : undefined}
-          aria-label={`${title} carousel`}
-          className={`-mx-0.5 flex select-none gap-5 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:gap-6 ${
+          aria-label={`${title} ${labels.carouselSuffix}`}
+          className={`-mx-0.5 flex select-none gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:gap-6 ${
             canLoop
               ? isDragging
                 ? "cursor-grabbing"
@@ -102,6 +119,9 @@ function ProjectGroup({
           {renderedItems.map((project, index) => {
             const isDuplicate = canLoop && index >= items.length;
             const isInspected = tooltip?.index === index;
+            const visitLabel = labels.visitSuffix
+              ? `${labels.visitPrefix} ${project.name} ${labels.visitSuffix}`
+              : `${labels.visitPrefix} ${project.name}`;
             return (
               <ProjectCard
                 key={isDuplicate ? `${project.name}-dup` : project.name}
@@ -110,6 +130,8 @@ function ProjectGroup({
                 singleItem={singleItem}
                 isInspected={isInspected}
                 describedById={isInspected ? tooltipId : undefined}
+                repoLabel={`${project.name} ${labels.repoLabelSuffix}`}
+                visitLabel={visitLabel}
                 onInspectStart={(cardEl) => {
                   if (!isDragging) show(project, index, cardEl);
                 }}
@@ -126,11 +148,11 @@ function ProjectGroup({
           <>
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-linear-to-r from-background/85 to-transparent"
+              className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-linear-to-r from-background/85 to-transparent sm:w-10"
             />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-background via-background/70 to-transparent"
+              className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-linear-to-l from-background via-background/70 to-transparent sm:w-14"
             />
           </>
         )}
@@ -158,21 +180,26 @@ function ProjectGroup({
 }
 
 export function Projects() {
+  const [locale] = useLocale();
+  const { projectsSection } = getPortfolioContent(locale);
+
   return (
-    <Section id="projects" className="gap-8">
-      <SectionHeading>Projects</SectionHeading>
-      <div className="flex flex-col gap-12">
+    <Section id="projects" className="gap-6 sm:gap-8">
+      <SectionHeading>{projectsSection.heading}</SectionHeading>
+      <div className="flex flex-col gap-10 sm:gap-12">
         <ProjectGroup
-          title="Professional Projects"
-          subtitle="Enterprise & Production Systems"
+          title={projectsSection.professionalTitle}
+          subtitle={projectsSection.professionalSubtitle}
           icon="domain"
-          items={professionalProjects}
+          items={projectsSection.professional}
+          labels={projectsSection}
         />
         <ProjectGroup
-          title="Personal Projects"
-          subtitle="Independent & Open-Source Explorations"
+          title={projectsSection.personalTitle}
+          subtitle={projectsSection.personalSubtitle}
           icon="terminal"
-          items={personalProjects}
+          items={projectsSection.personal}
+          labels={projectsSection}
         />
       </div>
     </Section>
