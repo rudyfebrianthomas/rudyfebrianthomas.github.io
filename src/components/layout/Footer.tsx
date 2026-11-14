@@ -12,17 +12,19 @@ export function Footer() {
             {profile.name} · Frontend Developer
           </span>
           <p className="text-body-sm text-on-surface-variant">
-            © <CurrentYear buildYear={new Date().getFullYear()} /> {profile.name}. All rights reserved.
+            © <CurrentYear buildYear={new Date().getFullYear()} />{" "}
+            {profile.name}. All rights reserved.
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-1.5">
           {socialLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               aria-label={link.label}
+              title={link.label}
               {...externalLinkProps(link.external)}
-              className="p-1 text-on-surface-variant transition-colors hover:text-primary"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container hover:text-primary active:translate-y-px active:scale-[0.985]"
             >
               <Icon name={link.icon} className="text-[20px]" />
             </a>
@@ -32,4 +34,3 @@ export function Footer() {
     </footer>
   );
 }
-

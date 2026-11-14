@@ -20,9 +20,10 @@ function ProjectIconLink({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
+      title={label}
       tabIndex={tabIndex}
       draggable={false}
-      className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
+      className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:bg-surface-container hover:text-primary active:scale-[0.96]"
     >
       <Icon name={icon} className="text-[18px]" />
     </a>
@@ -33,15 +34,19 @@ export function ProjectCard({
   project,
   isDuplicate = false,
   singleItem = false,
+  isInspected = false,
   describedById,
   onInspectStart,
+  onInspectToggle,
   onInspectEnd,
 }: {
   project: ProjectItem;
   isDuplicate?: boolean;
   singleItem?: boolean;
+  isInspected?: boolean;
   describedById?: string;
   onInspectStart?: (el: HTMLLIElement) => void;
+  onInspectToggle?: (el: HTMLLIElement) => void;
   onInspectEnd?: () => void;
 }) {
   const linkTabIndex = isDuplicate ? -1 : undefined;
@@ -52,6 +57,10 @@ export function ProjectCard({
       aria-describedby={describedById}
       onMouseEnter={(e) => onInspectStart?.(e.currentTarget)}
       onMouseLeave={() => onInspectEnd?.()}
+      onClick={(e) => {
+        if ((e.target as HTMLElement).closest("a, button")) return;
+        onInspectToggle?.(e.currentTarget);
+      }}
       onFocus={(e) => {
         if (!isDuplicate) onInspectStart?.(e.currentTarget);
       }}
@@ -60,9 +69,9 @@ export function ProjectCard({
           onInspectEnd?.();
         }
       }}
-      className={`group flex shrink-0 flex-col overflow-hidden rounded-2xl border border-teal-500/12 bg-surface-container-low transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-        singleItem ? "w-full sm:w-84" : "w-76 sm:w-84"
-      }`}
+      className={`group flex shrink-0 flex-col overflow-hidden rounded-2xl border bg-surface-container-low transition-[transform,border-color,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:border-teal-500/35 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+        isInspected ? "border-teal-500/40 shadow-lg" : "border-teal-500/12"
+      } ${singleItem ? "w-full sm:w-84" : "w-76 sm:w-84"}`}
     >
       <div className="relative aspect-16/10 w-full overflow-hidden border-b border-teal-500/10 bg-surface-container">
         <Image
@@ -75,7 +84,7 @@ export function ProjectCard({
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-linear-to-t from-surface-container-low/60 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-linear-to-t from-surface-container-low/65 to-transparent"
         />
         {project.demoUrl && (
           <a
@@ -84,16 +93,16 @@ export function ProjectCard({
             rel="noreferrer"
             tabIndex={linkTabIndex}
             draggable={false}
-            className="absolute top-3 left-3 inline-flex max-w-[calc(100%-1.5rem)] items-center gap-1.5 rounded-full border border-teal-500/20 bg-surface-container-lowest/90 px-2.5 py-1 font-mono text-label-sm text-on-surface shadow-sm backdrop-blur-md transition-colors duration-150 hover:border-teal-500/40 hover:text-primary"
+            className="absolute top-3 left-3 inline-flex min-h-8 max-w-[calc(100%-1.5rem)] items-center gap-1.5 rounded-full border border-teal-500/25 bg-surface-container-lowest/95 px-2.5 py-1 font-mono text-label-sm text-on-surface shadow-sm backdrop-blur-md transition-colors duration-150 hover:border-teal-500/45 hover:text-primary"
           >
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400" />
             <span className="truncate">{getHostname(project.demoUrl)}</span>
             <Icon name="north_east" className="text-[13px]" />
           </a>
         )}
       </div>
       <div className="flex items-start justify-between gap-2 p-4 sm:p-5">
-        <h4 className="text-headline-sm font-semibold tracking-tight text-on-surface">
+        <h4 className="min-w-0 text-headline-sm font-semibold tracking-tight text-on-surface">
           {project.name}
         </h4>
         <div className="flex shrink-0 items-center gap-0.5">

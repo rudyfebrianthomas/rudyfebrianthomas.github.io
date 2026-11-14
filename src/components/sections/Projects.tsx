@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -24,12 +25,14 @@ function ProjectGroup({
   icon: string;
   items: readonly ProjectItem[];
 }) {
-  const { tooltip, wrapperRef, tooltipId, show, clear } =
+  const [paused, setPaused] = useState(false);
+  const { tooltip, wrapperRef, tooltipId, show, togglePin, clearHover, clear } =
     useCardTooltip<ProjectItem>(384);
 
   const { listRef, canLoop, isDragging, containerHandlers } =
     useHorizontalCarousel({
       itemCount: items.length,
+      paused,
       onUserInteract: clear,
     });
 
@@ -38,18 +41,33 @@ function ProjectGroup({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-1 border-b border-teal-500/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col justify-between gap-2 border-b border-teal-500/10 pb-3 sm:flex-row sm:items-center">
         <div className="flex items-center gap-2.5">
           <Icon name={icon} className="text-[20px] text-primary" />
           <h3 className="text-headline-md font-semibold tracking-tight text-on-surface">
             {title}
           </h3>
         </div>
-        <div className="flex items-center gap-3 font-mono text-label-sm text-on-surface-variant">
+        <div className="flex items-center gap-2.5 font-mono text-label-sm text-on-surface-variant">
           <span>{subtitle}</span>
           <span className="rounded-full border border-teal-500/15 bg-surface-container px-2.5 py-0.5 tabular-nums text-primary">
             {items.length}
           </span>
+          {canLoop && (
+            <button
+              type="button"
+              aria-pressed={paused}
+              aria-label={paused ? `Resume ${title} auto-scroll` : `Pause ${title} auto-scroll`}
+              title={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
+              onClick={() => setPaused((p) => !p)}
+              className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985]"
+            >
+              <Icon
+                name={paused ? "play_arrow" : "pause"}
+                className="text-[16px]"
+              />
+            </button>
+          )}
         </div>
       </div>
 
@@ -59,7 +77,7 @@ function ProjectGroup({
         onMouseEnter={containerHandlers.onMouseEnter}
         onMouseLeave={() => {
           containerHandlers.onMouseLeave();
-          clear();
+          clearHover();
         }}
         onFocus={containerHandlers.onFocus}
         onBlur={(e) => {
@@ -83,17 +101,22 @@ function ProjectGroup({
         >
           {renderedItems.map((project, index) => {
             const isDuplicate = canLoop && index >= items.length;
+            const isInspected = tooltip?.index === index;
             return (
               <ProjectCard
                 key={isDuplicate ? `${project.name}-dup` : project.name}
                 project={project}
                 isDuplicate={isDuplicate}
                 singleItem={singleItem}
-                describedById={tooltip?.index === index ? tooltipId : undefined}
+                isInspected={isInspected}
+                describedById={isInspected ? tooltipId : undefined}
                 onInspectStart={(cardEl) => {
                   if (!isDragging) show(project, index, cardEl);
                 }}
-                onInspectEnd={clear}
+                onInspectToggle={(cardEl) => {
+                  if (!isDragging) togglePin(project, index, cardEl);
+                }}
+                onInspectEnd={clearHover}
               />
             );
           })}
@@ -117,7 +140,11 @@ function ProjectGroup({
             id={tooltipId}
             role="tooltip"
             style={{ left: `${tooltip.x}px` }}
-            className="pointer-events-none absolute bottom-full z-30 mb-3 flex w-[min(24rem,calc(100vw-2rem))] -translate-x-1/2 flex-col gap-3 rounded-xl border border-teal-500/20 bg-surface-container-lowest/95 p-4 text-left shadow-xl backdrop-blur-md"
+            className={`pointer-events-none absolute z-30 flex w-[min(24rem,calc(100vw-2rem))] -translate-x-1/2 flex-col gap-3 rounded-xl border border-teal-500/25 bg-surface-container-lowest/95 p-4 text-left shadow-xl backdrop-blur-md ${
+              tooltip.placement === "bottom"
+                ? "top-full mt-3"
+                : "bottom-full mb-3"
+            }`}
           >
             <p className="text-body-sm leading-relaxed text-on-surface-variant">
               {tooltip.data.description}
@@ -132,20 +159,22 @@ function ProjectGroup({
 
 export function Projects() {
   return (
-    <Section id="projects" className="gap-12">
+    <Section id="projects" className="gap-8">
       <SectionHeading>Projects</SectionHeading>
-      <ProjectGroup
-        title="Professional Projects"
-        subtitle="Enterprise & Production Systems"
-        icon="domain"
-        items={professionalProjects}
-      />
-      <ProjectGroup
-        title="Personal Projects"
-        subtitle="Independent & Open-Source Explorations"
-        icon="terminal"
-        items={personalProjects}
-      />
+      <div className="flex flex-col gap-12">
+        <ProjectGroup
+          title="Professional Projects"
+          subtitle="Enterprise & Production Systems"
+          icon="domain"
+          items={professionalProjects}
+        />
+        <ProjectGroup
+          title="Personal Projects"
+          subtitle="Independent & Open-Source Explorations"
+          icon="terminal"
+          items={personalProjects}
+        />
+      </div>
     </Section>
   );
 }

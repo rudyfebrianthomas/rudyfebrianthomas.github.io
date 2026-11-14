@@ -50,7 +50,7 @@ src/
   components/
     layout/              Header, footer, theme toggle, smooth scrolling, and ambient background
     sections/            Profile, experience, education, tech stack, projects, and contact sections
-    ui/                  Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge, Reveal, TypingText)
+    ui/                  Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge)
   lib/
     data.ts              Profile, navigation, experience, skills, and project content with types
     url.ts               URL formatting and external-link attribute helpers

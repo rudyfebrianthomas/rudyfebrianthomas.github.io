@@ -34,7 +34,8 @@ const TECH_ICON_MAP: Record<
 
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
-  const { tooltip, wrapperRef, tooltipId, show, clear } =
+  const [paused, setPaused] = useState(false);
+  const { tooltip, wrapperRef, tooltipId, show, togglePin, clearHover, clear } =
     useCardTooltip<TechItem>(288);
 
   const visible = techItems.filter(
@@ -44,6 +45,7 @@ export function TechStack() {
   const { listRef, canLoop, isDragging, reset, containerHandlers } =
     useHorizontalCarousel({
       itemCount: visible.length,
+      paused,
       onUserInteract: clear,
     });
 
@@ -57,31 +59,48 @@ export function TechStack() {
 
   return (
     <Section id="tech-stack" className="gap-8">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <SectionHeading>Tech Stack</SectionHeading>
-        <div
-          role="group"
-          aria-label="Filter tech stack"
-          className="flex flex-wrap items-center self-start rounded-2xl bg-surface-container p-1 md:self-auto md:rounded-full"
-        >
-          {techFilters.map(({ id, label }) => {
-            const active = filter === id;
-            return (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={active}
-                onClick={() => handleFilterChange(id)}
-                className={`min-h-11 rounded-full px-4 py-1.5 font-mono text-label-sm transition-all md:min-h-0 ${
-                  active
-                    ? "bg-surface-container-high font-semibold text-primary dark:text-teal-300"
-                    : "text-on-surface-variant hover:text-primary"
-                }`}
-              >
-                {label}
-              </button>
-            );
-          })}
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div
+            role="group"
+            aria-label="Filter tech stack"
+            className="flex flex-wrap items-center rounded-2xl border border-teal-500/12 bg-surface-container p-1 sm:rounded-full"
+          >
+            {techFilters.map(({ id, label }) => {
+              const active = filter === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => handleFilterChange(id)}
+                  className={`min-h-10 cursor-pointer rounded-full px-4 py-1.5 font-mono text-label-sm transition-colors duration-150 lg:min-h-9 ${
+                    active
+                      ? "bg-surface-container-highest font-semibold text-primary dark:bg-surface-container-high dark:text-teal-300"
+                      : "text-on-surface-variant hover:text-primary"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+          {canLoop && (
+            <button
+              type="button"
+              aria-pressed={paused}
+              aria-label={paused ? "Resume tech stack auto-scroll" : "Pause tech stack auto-scroll"}
+              title={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
+              onClick={() => setPaused((p) => !p)}
+              className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-teal-500/15 bg-surface-container text-on-surface-variant transition-[transform,background-color,color] duration-150 hover:-translate-y-px hover:bg-surface-container-high hover:text-primary active:translate-y-px active:scale-[0.985] lg:h-10 lg:w-10"
+            >
+              <Icon
+                name={paused ? "play_arrow" : "pause"}
+                className="text-[18px]"
+              />
+            </button>
+          )}
         </div>
       </div>
 
@@ -91,7 +110,7 @@ export function TechStack() {
         onMouseEnter={containerHandlers.onMouseEnter}
         onMouseLeave={() => {
           containerHandlers.onMouseLeave();
-          clear();
+          clearHover();
         }}
         onFocus={containerHandlers.onFocus}
         onBlur={(e) => {
@@ -126,14 +145,21 @@ export function TechStack() {
                 onMouseEnter={(e) => {
                   if (!isDragging) show(item, index, e.currentTarget);
                 }}
-                onMouseLeave={clear}
+                onMouseLeave={clearHover}
+                onClick={(e) => {
+                  if (!isDragging) togglePin(item, index, e.currentTarget);
+                }}
                 onFocus={(e) => {
                   if (!isDuplicate && !isDragging) {
                     show(item, index, e.currentTarget);
                   }
                 }}
-                onBlur={clear}
-                className="flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-teal-500/12 bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-48"
+                onBlur={clearHover}
+                className={`flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:border-teal-500/35 hover:bg-surface-container hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-48 ${
+                  isTooltipActive
+                    ? "border-teal-500/40 bg-surface-container shadow-md"
+                    : "border-teal-500/12"
+                }`}
               >
                 <div
                   aria-hidden="true"
@@ -181,9 +207,13 @@ export function TechStack() {
             id={tooltipId}
             role="tooltip"
             style={{ left: `${tooltip.x}px` }}
-            className="pointer-events-none absolute bottom-full z-30 mb-3 w-72 -translate-x-1/2 rounded-xl border border-teal-500/20 bg-surface-container-lowest/95 px-4 py-3 text-left shadow-xl backdrop-blur-md"
+            className={`pointer-events-none absolute z-30 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2 rounded-xl border border-teal-500/25 bg-surface-container-lowest/95 px-4 py-3 text-left shadow-xl backdrop-blur-md ${
+              tooltip.placement === "bottom"
+                ? "top-full mt-3"
+                : "bottom-full mb-3"
+            }`}
           >
-            <span className="block font-mono text-label-sm text-primary">
+            <span className="block font-mono text-label-sm font-semibold text-primary">
               {tooltip.data.badge}
             </span>
             <p className="mt-1 text-body-sm leading-relaxed text-on-surface-variant">
@@ -195,4 +225,3 @@ export function TechStack() {
     </Section>
   );
 }
-

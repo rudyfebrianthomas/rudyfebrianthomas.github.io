@@ -10,7 +10,7 @@ Act as a senior software engineer with 10+ years of experience in modern fronten
 - **Framework:** Next.js 16.4.5 (App Router, Static Export via `output: "export"`)
 - **UI Library:** React 19.3.0 + TypeScript 5 (strict mode)
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/postcss`) + semantic CSS custom properties in `src/app/globals.css`
-- **Motion & Interactions:** `lenis` (smooth scrolling + anchor offset) & `tw-animate-css` (IntersectionObserver scroll-reveal via `src/components/ui/Reveal.tsx`)
+- **Motion & Interactions:** `lenis` (smooth scrolling + dynamic header anchor offset) & `tw-animate-css` (initial Profile hero entrance)
 - **Typography & Icons:** Google Fonts (`Geist`, `JetBrains Mono`) via `next/font/google` and Material Symbols Outlined
 - **Deployment:** GitHub Pages (`gh-pages -d out -t`, with `public/.nojekyll`)
 
@@ -20,7 +20,7 @@ Act as a senior software engineer with 10+ years of experience in modern fronten
 - `src/app/globals.css` — Tailwind v4 imports (`tailwindcss`, `tw-animate-css`, `lenis/dist/lenis.css`), `@custom-variant dark`, `:root` (Light) and `html.dark` (Dark) design tokens, and `@theme` mappings.
 - `src/app/page.tsx` — Main page composing `SmoothScroll`, `AmbientBackground`, `Header`, `Profile`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, and `Footer`.
 - `src/lib/data.ts` — Single source of truth for all resume/portfolio data (`profile`, `stats`, `experience`, `education`, `techCategories`, `techItems`, `professionalProjects`, `personalProjects`).
-- `src/components/` — Modular UI sections and interactive utilities (`Header`, `ThemeToggle`, `SmoothScroll`, `Reveal`, `Profile`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, `Footer`, `Icon`, `SectionHeading`, `Tag`, `AmbientBackground`).
+- `src/components/` — Modular UI sections and interactive utilities (`Header`, `ThemeToggle`, `SmoothScroll`, `Profile`, `Experience`, `Education`, `TechStack`, `Projects`, `Contact`, `CopyEmailButton`, `Footer`, `Icon`, `SectionHeading`, `Tag`, `AmbientBackground`).
 - `public/` — Static assets (`CV_RUDY_FEBRIAN_THOMAS.pdf`, `.nojekyll`, `images/avatar.jpg`, `images/project-octo-web.png`, `images/project-profile.png`).
 
 ## Engineering Principles & Conventions

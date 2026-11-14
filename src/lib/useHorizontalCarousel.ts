@@ -9,6 +9,7 @@ type UseHorizontalCarouselOptions = {
   itemCount: number;
   speedPxPerSec?: number;
   cooldownMs?: number;
+  paused?: boolean;
   onUserInteract?: () => void;
 };
 
@@ -20,6 +21,7 @@ export function useHorizontalCarousel({
   itemCount,
   speedPxPerSec = DEFAULT_SPEED_PX_PER_SEC,
   cooldownMs = DEFAULT_COOLDOWN_MS,
+  paused = false,
   onUserInteract,
 }: UseHorizontalCarouselOptions) {
   const [canLoop, setCanLoop] = useState(false);
@@ -32,7 +34,12 @@ export function useHorizontalCarousel({
   const draggingRef = useRef(false);
   const didDragRef = useRef(false);
   const cooldownUntilRef = useRef(0);
+  const pausedRef = useRef(paused);
   const onInteractRef = useRef(onUserInteract);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     onInteractRef.current = onUserInteract;
@@ -215,6 +222,7 @@ export function useHorizontalCarousel({
         el.scrollLeft = scrollPosRef.current;
       } else {
         const userBusy =
+          pausedRef.current ||
           hoveringRef.current ||
           focusedRef.current ||
           now < cooldownUntilRef.current;
