@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Section } from "@/components/ui/Section";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { techFilters, techItems, type TechCategory } from "@/lib/data";
-import { SectionHeading } from "./ui";
 
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
@@ -11,7 +12,7 @@ export function TechStack() {
   );
 
   return (
-    <section id="tech-stack" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-8">
+    <Section id="tech-stack" className="gap-8">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <SectionHeading>Tech Stack</SectionHeading>
         <div
@@ -66,7 +67,7 @@ export function TechStack() {
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }
 

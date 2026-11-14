@@ -1,13 +1,15 @@
 import Image from "next/image";
+import { Icon } from "@/components/ui/Icon";
+import { Section } from "@/components/ui/Section";
+import { TypingText } from "@/components/ui/TypingText";
 import { profile, socialLinks } from "@/lib/data";
-import { Icon } from "./Icon";
-import { TypingText } from "./TypingText";
+import { externalLinkProps } from "@/lib/url";
 
 export function Hero() {
   return (
-    <section
+    <Section
       id="hero"
-      className="relative flex scroll-mt-44 md:scroll-mt-24 flex-col items-start gap-8 pt-6 pb-8 md:pt-14"
+      className="relative items-start gap-8 pt-6 pb-8 md:pt-14"
     >
       <div className="flex w-full flex-col items-center justify-between gap-10 lg:flex-row lg:gap-12">
         <div className="flex max-w-2xl flex-1 flex-col items-start gap-6">
@@ -75,9 +77,7 @@ export function Hero() {
           <li key={s.href}>
             <a
               href={s.href}
-              {...("external" in s
-                ? { target: "_blank", rel: "noreferrer" }
-                : {})}
+              {...externalLinkProps(s.external)}
               className="inline-flex min-h-11 max-w-full items-center gap-2 rounded-full border border-surface-container-highest bg-surface-container-lowest/80 px-3.5 py-1.5 font-mono text-label-sm text-on-surface-variant shadow-sm transition-colors hover:bg-surface-container hover:text-primary"
             >
               <Icon name={s.icon} className="text-[16px] text-primary" />
@@ -86,7 +86,7 @@ export function Hero() {
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }
 

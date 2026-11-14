@@ -1,4 +1,4 @@
-﻿# Rudy Febrian Thomas — Portfolio
+# Rudy Febrian Thomas — Portfolio
 
 A personal portfolio and interactive resume for frontend developer Rudy Febrian Thomas. The site presents his experience, education, technical skills, and projects in a responsive, statically exported website.
 
@@ -46,8 +46,13 @@ npm run build  # Build the static site into out/
 
 ```text
 app/                     Page composition, metadata, global styles, and theme setup
-components/              Portfolio sections and interactive components
-lib/data.ts              Profile, navigation, experience, skills, and project content
+components/
+  layout/                Header, footer, theme toggle, smooth scrolling, and ambient background
+  sections/              Hero, experience, education, tech stack, projects, and contact sections
+  ui/                    Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge, Reveal, TypingText)
+lib/
+  data.ts                Profile, navigation, experience, skills, and project content with types
+  url.ts                 URL formatting and external-link attribute helpers
 public/                  Images and other static assets
 next.config.ts           Static export configuration
 .github/workflows/       GitHub Pages deployment workflow

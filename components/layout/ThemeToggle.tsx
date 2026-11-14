@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { Icon } from "./Icon";
+import { Icon } from "@/components/ui/Icon";
 
 function subscribe(callback: () => void) {
   const observer = new MutationObserver(callback);

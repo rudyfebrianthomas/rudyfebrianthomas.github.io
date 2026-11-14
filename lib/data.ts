@@ -16,23 +16,45 @@ export const profile = {
   resumeUrl: "https://drive.google.com/uc?export=download&id=1KLzxsuzFp-kzC2-HlqaYeKcFy6Le0esp",
 } as const;
 
-export const socialLinks = [
+export type SocialLink = {
+  href: string;
+  icon: string;
+  label: string;
+  external?: boolean;
+};
+
+export const socialLinks: readonly SocialLink[] = [
   { href: profile.github, icon: "code", label: "GitHub", external: true },
   { href: profile.linkedin, icon: "share", label: "LinkedIn", external: true },
   { href: `mailto:${profile.email}`, icon: "mail", label: "Email", external: true },
   { href: profile.whatsapp, icon: "call", label: "WhatsApp", external: true },
-] as const;
+];
 
-export const navLinks = [
+export type NavLink = {
+  href: string;
+  label: string;
+};
+
+export const navLinks: readonly NavLink[] = [
   { href: "#hero", label: "Profile" },
   { href: "#experience", label: "Experience" },
   { href: "#education", label: "Education" },
   { href: "#tech-stack", label: "Tech Stack" },
   { href: "#projects", label: "Projects" },
   { href: "#contact", label: "Contact" },
-] as const;
+];
 
-export const experience = {
+export type ExperienceItem = {
+  title: string;
+  tenure: string;
+  company: string;
+  period: string;
+  description: string;
+  highlights: readonly string[];
+  tags: readonly string[];
+};
+
+export const experience: ExperienceItem = {
   title: "Frontend Web Developer",
   tenure: "7 Years of Professional Experience",
   company: "CIMB Niaga · OCTO Web & Internal Configuration Portal",
@@ -54,9 +76,17 @@ export const experience = {
     "Agile / Scrum",
     "Jira & Confluence",
   ],
-} as const;
+};
 
-export const education = {
+export type EducationItem = {
+  degree: string;
+  school: string;
+  period: string;
+  description: string;
+  tags: readonly string[];
+};
+
+export const education: EducationItem = {
   degree: "Bachelor's Degree in Computer Science / Informatics",
   school: "Universitas Indraprasta PGRI (UNINDRA) · Jakarta, Indonesia",
   period: "Sep 2014 – Aug 2018",
@@ -68,24 +98,31 @@ export const education = {
     "MySQL Database Design",
     "Software Engineering",
   ],
-} as const;
+};
 
 export type TechCategory = "core" | "methodology" | "languages";
 
-export const techFilters: { id: "all" | TechCategory; label: string }[] = [
+export type TechFilter = {
+  id: "all" | TechCategory;
+  label: string;
+};
+
+export const techFilters: readonly TechFilter[] = [
   { id: "all", label: "All" },
   { id: "core", label: "Core Skills" },
   { id: "methodology", label: "Methodologies & Tools" },
   { id: "languages", label: "Languages" },
 ];
 
-export const techItems: {
+export type TechItem = {
   abbr: string;
   name: string;
   detail: string;
   badge: string;
   category: TechCategory;
-}[] = [
+};
+
+export const techItems: readonly TechItem[] = [
   {
     abbr: "RE",
     name: "React.js",

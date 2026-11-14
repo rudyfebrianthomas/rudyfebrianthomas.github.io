@@ -1,12 +1,33 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
+import { Icon } from "@/components/ui/Icon";
 import { profile } from "@/lib/data";
-import { Icon } from "./Icon";
 
 const fieldClass =
   "min-w-0 rounded-xl border border-surface-container-highest bg-surface-container px-4 py-2.5 text-base text-on-surface shadow-sm placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-teal-400 focus:outline-none md:text-body-sm";
-const labelClass = "font-mono text-label-sm font-medium text-on-surface";
+
+function FormField({
+  id,
+  label,
+  children,
+}: {
+  id: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label
+        htmlFor={id}
+        className="font-mono text-label-sm font-medium text-on-surface"
+      >
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
 
 /**
  * The site is a static export with no backend, so submitting opens the
@@ -35,10 +56,7 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name" className={labelClass}>
-            Your Name
-          </label>
+        <FormField id="name" label="Your Name">
           <input
             id="name"
             name="name"
@@ -48,11 +66,8 @@ export function ContactForm() {
             placeholder="Elena Rostova"
             className={fieldClass}
           />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email" className={labelClass}>
-            Work Email
-          </label>
+        </FormField>
+        <FormField id="email" label="Work Email">
           <input
             id="email"
             name="email"
@@ -62,12 +77,9 @@ export function ContactForm() {
             placeholder="elena@enterprise.org"
             className={fieldClass}
           />
-        </div>
+        </FormField>
       </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="subject" className={labelClass}>
-          Project Scope / Position Title
-        </label>
+      <FormField id="subject" label="Project Scope / Position Title">
         <input
           id="subject"
           name="subject"
@@ -76,11 +88,8 @@ export function ContactForm() {
           placeholder="Staff Frontend Role / Design System Overhaul"
           className={fieldClass}
         />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="message" className={labelClass}>
-          Specifications &amp; Overview
-        </label>
+      </FormField>
+      <FormField id="message" label="Specifications & Overview">
         <textarea
           id="message"
           name="message"
@@ -89,7 +98,7 @@ export function ContactForm() {
           placeholder="Tell me about your product requirements, current architecture hurdles, and timeline..."
           className={`${fieldClass} resize-none`}
         />
-      </div>
+      </FormField>
       {sent && (
         <p
           role="status"
@@ -109,4 +118,3 @@ export function ContactForm() {
     </form>
   );
 }
-

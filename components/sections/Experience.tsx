@@ -1,6 +1,9 @@
+import { Icon } from "@/components/ui/Icon";
+import { PeriodBadge } from "@/components/ui/PeriodBadge";
+import { Section } from "@/components/ui/Section";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { TagList } from "@/components/ui/Tag";
 import { experience } from "@/lib/data";
-import { Icon } from "./Icon";
-import { SectionHeading, Tag } from "./ui";
 
 /** Renders `**bold**` segments from trusted, static copy as <strong>. */
 function Highlight({ text }: { text: string }) {
@@ -11,7 +14,7 @@ function Highlight({ text }: { text: string }) {
 
 export function Experience() {
   return (
-    <section id="experience" className="flex scroll-mt-44 md:scroll-mt-24 flex-col gap-10">
+    <Section id="experience" className="gap-10">
       <SectionHeading>Work Experience</SectionHeading>
       <article className="relative overflow-hidden rounded-2xl border border-teal-500/10 bg-surface-container-low/70 p-5 shadow-lg backdrop-blur-xl transition-all hover:border-teal-500/30 hover:bg-surface-container-low sm:p-8">
         <div className="flex flex-col justify-between gap-4 border-b border-teal-500/10 pb-4 md:flex-row md:items-center">
@@ -29,10 +32,7 @@ export function Experience() {
               {experience.company}
             </p>
           </div>
-          <p className="flex items-center gap-2 self-start rounded-full border border-surface-container-highest bg-surface-container px-3.5 py-1.5 font-mono text-label-sm text-on-surface-variant md:self-auto">
-            <Icon name="calendar_today" className="text-[16px] text-primary" />
-            {experience.period}
-          </p>
+          <PeriodBadge period={experience.period} />
         </div>
         <p className="my-5 text-body-md text-on-surface-variant">
           {experience.description}
@@ -53,15 +53,12 @@ export function Experience() {
             </li>
           ))}
         </ul>
-        <ul className="flex flex-wrap gap-2 border-t border-teal-500/10 pt-4">
-          {experience.tags.map((tag) => (
-            <li key={tag}>
-              <Tag>{tag}</Tag>
-            </li>
-          ))}
-        </ul>
+        <TagList
+          tags={experience.tags}
+          className="border-t border-teal-500/10 pt-4"
+        />
       </article>
-    </section>
+    </Section>
   );
 }
 

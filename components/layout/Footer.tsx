@@ -1,5 +1,6 @@
+import { Icon } from "@/components/ui/Icon";
 import { profile, socialLinks } from "@/lib/data";
-import { Icon } from "./Icon";
+import { externalLinkProps } from "@/lib/url";
 import { CurrentYear } from "./CurrentYear";
 
 export function Footer() {
@@ -20,9 +21,7 @@ export function Footer() {
               key={link.href}
               href={link.href}
               aria-label={link.label}
-              {...("external" in link
-                ? { target: "_blank", rel: "noreferrer" }
-                : {})}
+              {...externalLinkProps(link.external)}
               className="p-1 text-on-surface-variant transition-colors hover:text-primary"
             >
               <Icon name={link.icon} className="text-[20px]" />

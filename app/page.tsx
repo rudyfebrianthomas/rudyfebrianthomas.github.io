@@ -1,14 +1,14 @@
-import { AmbientBackground } from "@/components/AmbientBackground";
-import { Contact } from "@/components/Contact";
-import { Education } from "@/components/Education";
-import { Experience } from "@/components/Experience";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { Projects } from "@/components/Projects";
-import { Reveal } from "@/components/Reveal";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { TechStack } from "@/components/TechStack";
+import { AmbientBackground } from "@/components/layout/AmbientBackground";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { Contact } from "@/components/sections/Contact";
+import { Education } from "@/components/sections/Education";
+import { Experience } from "@/components/sections/Experience";
+import { Hero } from "@/components/sections/Hero";
+import { Projects } from "@/components/sections/Projects";
+import { TechStack } from "@/components/sections/TechStack";
+import { Reveal } from "@/components/ui/Reveal";
 
 export default function Home() {
   return (

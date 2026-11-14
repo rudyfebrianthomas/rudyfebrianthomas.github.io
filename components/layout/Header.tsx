@@ -1,5 +1,5 @@
+import { Icon } from "@/components/ui/Icon";
 import { navLinks, profile } from "@/lib/data";
-import { Icon } from "./Icon";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
