@@ -1,11 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { techFilters, techItems, type TechCategory } from "@/lib/data";
+import {
+  techFilters,
+  techItems,
+  type TechCategory,
+  type TechItem,
+} from "@/lib/data";
 
 const AUTO_SCROLL_PX_PER_SEC = 28;
 const USER_COOLDOWN_MS = 2500;
@@ -32,7 +37,14 @@ export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
   const [canLoop, setCanLoop] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [tooltip, setTooltip] = useState<{
+    item: TechItem;
+    index: number;
+    x: number;
+  } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const tooltipId = useId();
   const scrollPosRef = useRef(0);
   const targetScrollRef = useRef(0);
   const hoveringRef = useRef(false);
@@ -104,6 +116,7 @@ export function TechStack() {
 
       e.preventDefault();
       e.stopPropagation();
+      setTooltip(null);
       markUserScroll();
 
       let nextTarget = targetScrollRef.current + step;
@@ -126,6 +139,7 @@ export function TechStack() {
 
       draggingRef.current = true;
       setIsDragging(true);
+      setTooltip(null);
       dragStartX = e.clientX;
       dragStartScroll = el.scrollLeft;
       scrollPosRef.current = el.scrollLeft;
@@ -250,12 +264,34 @@ export function TechStack() {
   const handleFilterChange = (id: "all" | TechCategory) => {
     setFilter(id);
     setCanLoop(false);
+    setTooltip(null);
     scrollPosRef.current = 0;
     targetScrollRef.current = 0;
     cooldownUntilRef.current = 0;
     if (listRef.current) {
       listRef.current.scrollLeft = 0;
     }
+  };
+
+  const showTooltipForCard = (
+    item: TechItem,
+    index: number,
+    cardEl: HTMLLIElement,
+  ) => {
+    if (draggingRef.current) return;
+    const wrapEl = wrapperRef.current;
+    if (!wrapEl) return;
+
+    const wrapRect = wrapEl.getBoundingClientRect();
+    const cardRect = cardEl.getBoundingClientRect();
+    const halfMaxWidth = Math.min(144, wrapRect.width / 2 - 12);
+    const rawCenter = cardRect.left - wrapRect.left + cardRect.width / 2;
+    const clampedX = Math.min(
+      Math.max(rawCenter, halfMaxWidth),
+      wrapRect.width - halfMaxWidth,
+    );
+
+    setTooltip({ item, index, x: clampedX });
   };
 
   return (
@@ -289,12 +325,14 @@ export function TechStack() {
       </div>
 
       <div
+        ref={wrapperRef}
         className="relative"
         onMouseEnter={() => {
           hoveringRef.current = true;
         }}
         onMouseLeave={() => {
           hoveringRef.current = false;
+          setTooltip(null);
         }}
         onFocus={() => {
           focusedRef.current = true;
@@ -302,6 +340,7 @@ export function TechStack() {
         onBlur={(e) => {
           if (!e.currentTarget.contains(e.relatedTarget)) {
             focusedRef.current = false;
+            setTooltip(null);
           }
         }}
       >
@@ -320,12 +359,24 @@ export function TechStack() {
           {renderedItems.map((item, index) => {
             const isDuplicate = canLoop && index >= visible.length;
             const icon = TECH_ICON_MAP[item.abbr];
+            const isTooltipActive = tooltip?.index === index;
             return (
               <li
                 key={isDuplicate ? `${item.name}-dup` : item.name}
                 aria-hidden={isDuplicate || undefined}
-                title={item.detail}
-                className="flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-teal-500/12 bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container sm:w-48"
+                tabIndex={isDuplicate ? undefined : 0}
+                aria-describedby={isTooltipActive ? tooltipId : undefined}
+                onMouseEnter={(e) =>
+                  showTooltipForCard(item, index, e.currentTarget)
+                }
+                onMouseLeave={() => setTooltip(null)}
+                onFocus={(e) => {
+                  if (!isDuplicate) {
+                    showTooltipForCard(item, index, e.currentTarget);
+                  }
+                }}
+                onBlur={() => setTooltip(null)}
+                className="flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-teal-500/12 bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-48"
               >
                 <div
                   aria-hidden="true"
@@ -366,6 +417,22 @@ export function TechStack() {
               className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-background via-background/70 to-transparent"
             />
           </>
+        )}
+
+        {tooltip && (
+          <div
+            id={tooltipId}
+            role="tooltip"
+            style={{ left: `${tooltip.x}px` }}
+            className="pointer-events-none absolute bottom-full z-30 mb-3 w-72 -translate-x-1/2 rounded-xl border border-teal-500/20 bg-surface-container-lowest/95 px-4 py-3 text-left shadow-xl backdrop-blur-md"
+          >
+            <span className="block font-mono text-label-sm text-primary">
+              {tooltip.item.badge}
+            </span>
+            <p className="mt-1 text-body-sm leading-relaxed text-on-surface-variant">
+              {tooltip.item.detail}
+            </p>
+          </div>
         )}
       </div>
     </Section>
