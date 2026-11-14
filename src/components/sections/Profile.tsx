@@ -25,7 +25,12 @@ export function Profile() {
             <span className="font-semibold text-primary">
               {profile.roles[0]}
             </span>
-            <span className="text-on-surface-variant"> · React &amp; TypeScript</span>
+            {profile.roles[1] && (
+              <span className="text-on-surface-variant">
+                {" "}
+                · {profile.roles[1]}
+              </span>
+            )}
           </p>
 
           <p className="max-w-xl text-body-lg leading-relaxed text-on-surface-variant">
