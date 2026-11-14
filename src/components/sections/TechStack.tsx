@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -9,13 +10,29 @@ import { techFilters, techItems, type TechCategory } from "@/lib/data";
 const AUTO_SCROLL_PX_PER_SEC = 28;
 const USER_COOLDOWN_MS = 2500;
 
+const TECH_ICON_MAP: Record<
+  string,
+  { src: string } | { material: string }
+> = {
+  RE: { src: "/icons/tech/react.svg" },
+  NX: { src: "/icons/tech/nextjs.svg" },
+  VU: { src: "/icons/tech/vue.svg" },
+  RX: { src: "/icons/tech/redux.svg" },
+  TW: { src: "/icons/tech/tailwindcss.svg" },
+  ND: { src: "/icons/tech/nodejs.svg" },
+  TS: { src: "/icons/tech/typescript.svg" },
+  HC: { src: "/icons/tech/html-5.svg" },
+  AG: { material: "view_kanban" },
+  JC: { src: "/icons/tech/git-icon.svg" },
+  TM: { material: "groups" },
+  LN: { material: "translate" },
+};
+
 export function TechStack() {
   const [filter, setFilter] = useState<"all" | TechCategory>("all");
-  const [paused, setPaused] = useState(false);
   const [scrollState, setScrollState] = useState({
     canLeft: false,
     canRight: false,
-    progress: 0,
   });
   const listRef = useRef<HTMLUListElement>(null);
   const scrollPosRef = useRef(0);
@@ -34,7 +51,6 @@ export function TechStack() {
     return {
       canLeft: el.scrollLeft > 4,
       canRight: el.scrollLeft < maxScroll - 4,
-      progress: maxScroll > 0 ? Math.min(el.scrollLeft / maxScroll, 1) : 1,
     };
   };
 
@@ -96,7 +112,6 @@ export function TechStack() {
 
       const maxScroll = el.scrollWidth - el.clientWidth;
       const userBusy =
-        paused ||
         hoveringRef.current ||
         focusedRef.current ||
         now < cooldownUntilRef.current;
@@ -131,7 +146,7 @@ export function TechStack() {
       rafId = requestAnimationFrame(tick);
     };
 
-    if (!reducedMotion && !paused) {
+    if (!reducedMotion) {
       rafId = requestAnimationFrame(tick);
     }
 
@@ -142,7 +157,7 @@ export function TechStack() {
       el.removeEventListener("touchstart", markUserScroll);
       el.removeEventListener("pointerdown", markUserScroll);
     };
-  }, [filter, paused]);
+  }, [filter]);
 
   const handleFilterChange = (id: "all" | TechCategory) => {
     setFilter(id);
@@ -151,16 +166,6 @@ export function TechStack() {
     if (listRef.current) {
       listRef.current.scrollLeft = 0;
     }
-  };
-
-  const scrollByStep = (direction: -1 | 1) => {
-    const el = listRef.current;
-    if (!el) return;
-    cooldownUntilRef.current = performance.now() + USER_COOLDOWN_MS;
-    el.scrollBy({
-      left: direction * Math.max(el.clientWidth * 0.75, 280),
-      behavior: "smooth",
-    });
   };
 
   return (
@@ -222,30 +227,39 @@ export function TechStack() {
           }}
           className="-mx-0.5 flex gap-4 overflow-x-auto overscroll-x-contain rounded-2xl px-0.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          {visible.map((item) => (
-            <li
-              key={item.name}
-              className="flex w-[84%] shrink-0 items-start gap-4 rounded-2xl border border-teal-500/12 bg-surface-container-low p-5 transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container sm:w-[47%] lg:w-[32%]"
-            >
-              <div
-                aria-hidden="true"
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-container-high font-mono text-label-md font-bold text-primary"
+          {visible.map((item) => {
+            const icon = TECH_ICON_MAP[item.abbr];
+            return (
+              <li
+                key={item.name}
+                title={item.detail}
+                className="flex w-44 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-teal-500/12 bg-surface-container-low px-4 py-6 text-center transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-teal-500/30 hover:bg-surface-container sm:w-48"
               >
-                {item.abbr}
-              </div>
-              <div className="flex min-w-0 flex-col gap-1">
-                <span className="text-headline-sm text-on-surface">
+                <div
+                  aria-hidden="true"
+                  className="flex h-14 w-14 items-center justify-center rounded-xl bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-100 dark:ring-white/10"
+                >
+                  {icon && "src" in icon ? (
+                    <Image
+                      src={icon.src}
+                      alt=""
+                      width={36}
+                      height={36}
+                      className="h-9 w-9 object-contain"
+                    />
+                  ) : (
+                    <Icon
+                      name={icon?.material ?? "code"}
+                      className="text-[28px] text-teal-700"
+                    />
+                  )}
+                </div>
+                <span className="text-body-sm font-semibold leading-snug text-on-surface">
                   {item.name}
                 </span>
-                <span className="text-body-sm leading-relaxed text-on-surface-variant">
-                  {item.detail}
-                </span>
-                <span className="mt-1 font-mono text-label-sm text-primary">
-                  {item.badge}
-                </span>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
 
         {scrollState.canLeft && (
@@ -261,62 +275,6 @@ export function TechStack() {
           />
         )}
       </div>
-
-      {isScrollable && (
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3 font-mono text-label-sm text-on-surface-variant">
-            <Icon name="swap_horiz" className="text-[16px] text-primary" />
-            <span>Scroll wheel to explore ({visible.length})</span>
-            <span
-              aria-hidden="true"
-              className="h-1.5 w-16 overflow-hidden rounded-full bg-surface-container-highest"
-            >
-              <span
-                className="block h-full rounded-full bg-primary transition-[width] duration-150 ease-out"
-                style={{
-                  width: `${Math.max(
-                    Math.round(scrollState.progress * 100),
-                    16,
-                  )}%`,
-                }}
-              />
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
-              aria-pressed={paused}
-              onClick={() => setPaused((prev) => !prev)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-teal-500/15 bg-surface-container-high text-on-surface transition-colors hover:border-teal-500/35 hover:text-primary"
-            >
-              <Icon
-                name={paused ? "play_arrow" : "pause"}
-                className="text-[18px]"
-              />
-            </button>
-            <button
-              type="button"
-              aria-label="Scroll tech stack left"
-              disabled={!scrollState.canLeft}
-              onClick={() => scrollByStep(-1)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-teal-500/15 bg-surface-container-high text-on-surface transition-colors hover:border-teal-500/35 hover:text-primary disabled:pointer-events-none disabled:opacity-40"
-            >
-              <Icon name="chevron_left" className="text-[20px]" />
-            </button>
-            <button
-              type="button"
-              aria-label="Scroll tech stack right"
-              disabled={!scrollState.canRight}
-              onClick={() => scrollByStep(1)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-teal-500/15 bg-surface-container-high text-on-surface transition-colors hover:border-teal-500/35 hover:text-primary disabled:pointer-events-none disabled:opacity-40"
-            >
-              <Icon name="chevron_right" className="text-[20px]" />
-            </button>
-          </div>
-        </div>
-      )}
     </Section>
   );
 }

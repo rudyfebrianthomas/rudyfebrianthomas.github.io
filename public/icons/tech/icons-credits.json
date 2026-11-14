@@ -1,0 +1,110 @@
+[
+  {
+    "file": "git-icon.svg",
+    "icon": "logos:git-icon",
+    "name": "Git",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://git-scm.com/"
+  },
+  {
+    "file": "html-5.svg",
+    "icon": "logos:html-5",
+    "name": "Html",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://www.w3.org/TR/html5/"
+  },
+  {
+    "file": "nextjs.svg",
+    "icon": "logos:nextjs-icon",
+    "name": "Next.js",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://vercel.com/solutions/nextjs"
+  },
+  {
+    "file": "nodejs.svg",
+    "icon": "logos:nodejs-icon",
+    "name": "Node.js",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://nodejs.org/"
+  },
+  {
+    "file": "react.svg",
+    "icon": "logos:react",
+    "name": "React",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://facebook.github.io/react/"
+  },
+  {
+    "file": "redux.svg",
+    "icon": "logos:redux",
+    "name": "Redux",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://redux.js.org/"
+  },
+  {
+    "file": "tailwindcss.svg",
+    "icon": "logos:tailwindcss-icon",
+    "name": "Tailwind CSS",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://tailwindcss.com/"
+  },
+  {
+    "file": "typescript.svg",
+    "icon": "logos:typescript-icon",
+    "name": "Typescript",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://www.typescriptlang.org/"
+  },
+  {
+    "file": "vue.svg",
+    "icon": "logos:vue",
+    "name": "Vue.js",
+    "kind": "colour",
+    "source": "gilbarbara/logos@d6960edc1b7309d392c76e40d3a320df7f9ff85c",
+    "author": "Gil Barbara",
+    "licence": "CC0-1.0",
+    "url": "https://github.com/gilbarbara/logos",
+    "trademark": true,
+    "markUrl": "https://vuejs.org/"
+  }
+]
