@@ -332,5 +332,25 @@ export const personalProjects: readonly ProjectItem[] = [
     repoUrl: "https://github.com/rudyfebrianthomas/febrianthomas-kanban",
     demoUrl: "https://febrianthomas-kanban.vercel.app/",
   },
+  {
+    name: "RFT Compress — Image & Audio Compressor",
+    image: "/images/projects/project-compress.png",
+    imageAlt:
+      "Home page of RFT Compress showing Image and Sound compression cards",
+    description:
+      "Client-side image and audio compressor running locally in browser memory with WebAssembly and zero server uploads. Converts raster images to WebP, optimizes animated GIFs, encodes audio to MP3 by bitrate, and exports batches as ZIP.",
+    stack: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Wouter",
+      "Motion",
+      "WebAssembly",
+      "Web Audio API",
+      "fflate",
+    ],
+    repoUrl: "https://github.com/rudyfebrianthomas/compress-images",
+    demoUrl: "https://compress-images.vercel.app/",
+  },
 ];
 

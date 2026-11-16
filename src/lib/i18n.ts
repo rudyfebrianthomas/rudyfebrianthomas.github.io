@@ -233,6 +233,7 @@ const ID_PROJECT_DESCRIPTIONS: readonly string[] = [
   "Chatbot konsultasi karir IT berbasis Google Gemini untuk panduan karir, peta jalan belajar, serta ulasan CV dan portofolio. Mendukung unggahan PDF, gambar, dan audio untuk umpan balik, termasuk simulasi wawancara kerja.",
   "Portofolio dwibahasa untuk ilustrator dan animator 2D Febrian Thomas yang menampilkan karya ilustrasi, proyek, dan artikel. Dilengkapi pencarian, tag, tema terang dan gelap, serta editor teks terkelola untuk pemilik.",
   "Pelacak antrean komisi, portal permintaan, dan ruang kerja pemilik untuk ilustrator febrianthomas. Dilengkapi papan kanban langsung, pengajuan slot komisi dengan unggahan WebP, antarmuka dwibahasa EN/ID, dan pergantian tema.",
+  "Kompresor gambar dan audio sisi klien yang berjalan lokal di memori browser dengan WebAssembly tanpa unggahan ke server. Mengonversi gambar raster ke WebP, mengoptimalkan GIF animasi, mengkodekan audio ke MP3 berdasarkan bitrate, dan mengekspor batch sebagai ZIP.",
 ];
 
 export function getPortfolioContent(locale: Locale): LocalizedPortfolioContent {
