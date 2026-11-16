@@ -1,75 +1,92 @@
-# Rudy Febrian Thomas — Portfolio
+# Rudy Febrian Thomas Portfolio
 
-A personal portfolio and interactive resume for frontend developer Rudy Febrian Thomas. The site presents his experience, education, technical skills, and projects in a responsive, statically exported website.
-
-**Live site:** [rudyfebrianthomas.github.io](https://rudyfebrianthomas.github.io/)
+Personal portfolio and interactive resume for Frontend Web Developer Rudy Febrian Thomas. Built with Next.js App Router, React, TypeScript, and Tailwind CSS v4, and exported as a static site for GitHub Pages.
 
 ## Features
 
-- Profile, work experience, education, and professional and personal projects.
-- Filterable technology stack and a downloadable PDF resume.
-- Light and dark themes, with the selected theme saved in the browser.
-- Smooth scrolling, section navigation, and scroll-triggered reveals.
-- Contact form that opens a prefilled message in the visitor's email app; it does not send messages from a server.
+- **Profile & resume**: Hero overview with availability/timezone metadata and a downloadable PDF resume link.
+- **Experience & education**: Structured timeline cards covering 6+ years of frontend engineering and Computer Science education.
+- **Filterable tech stack carousel**: Category filters (`All`, `Core Skills`, `Methodologies & Tools`, `Languages`), continuous horizontal scrolling with drag and pause-on-hover, and click-pinned skill detail tooltips.
+- **Professional & personal projects**: Project showcase cards with stack tags, repository links, and live demo links.
+- **Bilingual & themed UI**: Persistent English/Indonesian locale switcher (`localStorage` key `locale`) and persistent dark/light theme toggle (`localStorage` key `theme`, defaulting to dark).
+- **Smooth navigation & contact**: Lenis smooth scrolling with header offset handling, copy-to-clipboard email action, and a `mailto:` contact form that opens a prefilled draft in the visitor's email client.
 
-## Technology
+## Tech Stack
 
-| Area | Tools |
-| --- | --- |
-| Framework | Next.js 16 App Router and React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 and semantic CSS custom properties |
-| Motion | Lenis and `tw-animate-css` |
-| Fonts and icons | Geist, JetBrains Mono, and Material Symbols Outlined |
-| Hosting | GitHub Pages via GitHub Actions |
+| Category | Technology | Role |
+| --- | --- | --- |
+| Framework | Next.js (`16.4.5`, App Router), React (`19.3.0`) | Static site generation (`output: "export"`) and UI composition |
+| Language | TypeScript (`^5`) | Strict static typing across data models, hooks, and components |
+| Styling | Tailwind CSS v4 (`^4`, `@tailwindcss/postcss`) | Utility styling and CSS custom-property light/dark design tokens |
+| Motion & Scroll | `lenis` (`^1.3.27`), `tw-animate-css` (`^1.4.0`) | Smooth anchor scrolling and entrance animations |
+| Fonts & Icons | `next/font/google` (`Geist`, `JetBrains Mono`), Material Symbols Outlined | Typography and UI icons alongside local SVG tech icons |
+| Linting | ESLint (`^9`), `eslint-config-next` (`16.4.5`) | Static lint and Next.js rule checks |
 
-## Getting started
+## Getting Started
 
-Use Node.js 24 and npm, matching the deployment workflow. Install dependencies and start the development server:
+Requires **Node.js 24** (matching `.github/workflows/deploy-pages.yml`) and network access to Google Fonts during production builds.
 
 ```bash
+# Install dependencies
 npm ci
+
+# Start the development server
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000). Next.js fetches the configured Google Fonts during a production build, so the build needs network access to Google Fonts.
+Open `http://localhost:3000` in your browser.
 
-## Commands
+## Scripts
 
 ```bash
-npm run dev    # Start the development server
-npm run lint   # Run ESLint
-npm run build  # Build the static site into out/
+npm run dev    # Start Next.js development server
+npm run build  # Build static export into out/
+npm run lint   # Run ESLint across the repository
 ```
-
-## Project structure
-
-```text
-src/
-  app/                   Page composition, metadata, global styles, and theme setup
-  components/
-    layout/              Header, footer, theme toggle, language toggle, smooth scrolling, and ambient background
-    sections/            Profile, experience, education, tech stack, projects, and contact sections
-    ui/                  Reusable UI primitives (Section, SectionHeading, Tag, Icon, PeriodBadge)
-  lib/
-    data.ts              Profile, navigation, experience, skills, and project content with types
-    i18n.ts              Bilingual EN/ID translations and localStorage-backed locale state
-    url.ts               URL formatting and external-link attribute helpers
-public/                  Images and other static assets
-next.config.ts           Static export configuration
-.github/workflows/       GitHub Pages deployment workflow
-```
-
-Edit `src/lib/data.ts` to update portfolio content and links, including the Google Drive resume download URL. Replace images in `public/` when their source files change. Theme tokens live in `src/app/globals.css`; page metadata and fonts are configured in `src/app/layout.tsx`.
 
 ## Deployment
 
-The site uses Next.js static export (`output: "export"`), with trailing slashes enabled and image optimization disabled. The generated `out/` directory contains the HTML, CSS, JavaScript, and public assets; no runtime server is required.
+- Configured in `next.config.ts` with `output: "export"`, `trailingSlash: true`, and `images: { unoptimized: true }`, producing static HTML, CSS, JS, and assets in `out/` with `public/.nojekyll`.
+- `.github/workflows/deploy-pages.yml` deploys via manual `workflow_dispatch` (`Actions -> Deploy to GitHub Pages -> Run workflow`), running `npm ci`, `npm run build`, and uploading `out/` to the `github-pages` environment.
+- Update portfolio content and links in `src/lib/data.ts`, theme tokens in `src/app/globals.css`, and metadata/fonts in `src/app/layout.tsx`.
 
-GitHub Pages is configured to use GitHub Actions. To deploy, push the desired changes to the repository's default branch, open **Actions → Deploy to GitHub Pages → Run workflow**, and select that branch. The workflow installs dependencies, builds the site, uploads `out/`, and deploys the artifact to the `github-pages` environment. It runs manually and does not deploy automatically on push.
+## Project Structure
 
-## Contact
+```text
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml
+├── LICENSE
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tsconfig.json
+├── public/
+│   ├── .nojekyll
+│   ├── icons/
+│   │   └── tech/            # SVG tech icons and credits manifest
+│   └── images/
+│       ├── avatar.webp
+│       └── projects/        # Project preview images
+└── src/
+    ├── app/
+    │   ├── favicon.ico
+    │   ├── globals.css
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── components/
+    │   ├── layout/          # AmbientBackground, CurrentYear, Footer, Header, LanguageToggle, SmoothScroll, ThemeToggle
+    │   ├── sections/        # Contact, ContactForm, CopyEmailButton, Education, Experience, Profile, ProjectCard, Projects, TechStack
+    │   └── ui/              # Icon, PeriodBadge, Section, SectionHeading, Tag
+    └── lib/
+        ├── data.ts          # Profile, experience, education, skills, and project content
+        ├── i18n.ts          # EN/ID translations and localStorage-backed locale hook
+        ├── url.ts           # URL formatting and external-link attribute helpers
+        ├── useCardTooltip.ts
+        └── useHorizontalCarousel.ts
+```
 
-- [GitHub](https://github.com/rudyfebrianthomas)
-- [LinkedIn](https://linkedin.com/in/rudyfebrianthomas)
-- Email: [rudyfebrian6@gmail.com](mailto:rudyfebrian6@gmail.com)
+## License
+
+This project is licensed under the [MIT License](LICENSE).
