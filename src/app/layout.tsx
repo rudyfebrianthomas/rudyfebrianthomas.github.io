@@ -12,10 +12,36 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const siteTitle = "Rudy Febrian Thomas — Frontend Web Developer";
+const siteDescription =
+  "Portfolio and resume of Rudy Febrian Thomas, a Frontend Web Developer with 6+ years of experience in React.js, TypeScript and modern frontend architecture.";
+
 export const metadata: Metadata = {
-  title: "Rudy Febrian Thomas — Frontend Web Developer",
-  description:
-    "Portfolio and resume of Rudy Febrian Thomas, a Frontend Web Developer with 6+ years of experience in React.js, TypeScript and modern frontend architecture.",
+  metadataBase: new URL("https://rudyfebrianthomas.github.io"),
+  title: siteTitle,
+  description: siteDescription,
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: "/",
+    siteName: "Rudy Febrian Thomas",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Rudy Febrian Thomas — Frontend Web Developer portfolio preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/images/og-preview.png"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
