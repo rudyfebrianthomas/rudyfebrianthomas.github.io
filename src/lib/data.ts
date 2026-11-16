@@ -262,7 +262,7 @@ export const personalProjects: readonly ProjectItem[] = [
     imageAlt:
       "Rudy Febrian Thomas's frontend developer portfolio and interactive resume",
     description:
-      "A responsive portfolio and interactive resume showcasing frontend experience, education, skills, and projects. Features a filterable tech stack, light and dark themes, smooth scrolling, a downloadable resume, and an email contact form.",
+      "Personal portfolio and interactive resume showcasing frontend experience, education, skills, and projects. Features a filterable tech stack carousel, EN/ID bilingual switching, dark and light themes, Lenis smooth scrolling, a downloadable CV, and a contact form.",
     stack: [
       "Next.js",
       "React",
@@ -276,18 +276,18 @@ export const personalProjects: readonly ProjectItem[] = [
     demoUrl: "https://rudyfebrianthomas.github.io/",
   },
   {
-    name: "Tech Career Buddy - Konsultan Karir IT AI",
+    name: "Tech Career Buddy — AI IT Career Consultant",
     image: "/images/projects/project-tech-buddy.webp",
     imageAlt:
       "Tech Career Buddy chat interface with a conversation about IT careers",
     description:
-      "Gemini-powered IT career chatbot offering career guidance, learning roadmaps, and CV and portfolio reviews. Supports PDF, image, and audio uploads for feedback, including mock interview practice.",
+      "Multimodal IT career consultant chatbot powered by Google Gemini. Guides users on IT career roadmaps, coding, technical interviews, portfolios, and CVs, supporting image, PDF, and audio uploads up to 20 MB with Markdown reply formatting.",
     stack: [
       "Node.js",
       "Express",
-      "Google Gemini AI",
-      "JavaScript",
-      "HTML & CSS",
+      "@google/genai",
+      "Vanilla JS",
+      "HTML5 & CSS3",
       "Multer",
       "marked.js",
     ],
@@ -299,14 +299,15 @@ export const personalProjects: readonly ProjectItem[] = [
     image: "/images/projects/project-ft.webp",
     imageAlt: "Preview of Febrian Thomas's illustration portfolio website",
     description:
-      "A bilingual portfolio for illustrator and 2D animator Febrian Thomas, showcasing illustrations, projects, and posts. Includes search, tags, light and dark themes, and an owner-managed rich-text editor.",
+      "Bilingual EN/ID portfolio and blog for illustrator and 2D animator Febrian Thomas. Backed by Supabase for live posts, projects, auth, and storage without rebuilds, featuring tag search, a Tiptap rich-text editor, WebP/GIF media optimization, themes, and audio.",
     stack: [
       "Next.js",
       "React",
       "TypeScript",
-      "Tailwind CSS",
+      "Tailwind CSS v4",
       "Supabase",
       "Tiptap",
+      "Radix UI",
       "Motion",
       "Lenis",
       "GitHub Pages",
@@ -319,9 +320,10 @@ export const personalProjects: readonly ProjectItem[] = [
     image: "/images/projects/project-ft-kanban.webp",
     imageAlt: "Landing hero of the Febrian Thomas Commission Kanban web app",
     description:
-      "Commission queue tracker, request portal, and owner workspace for illustrator febrianthomas. Features live kanban boards, commission slot intake with WebP uploads, bilingual EN/ID UI, and theme switching.",
+      "Commission queue tracker, request intake portal, and owner admin workspace for febrianthomas. Features a 6-stage kanban board, USD/IDR offer slots with WebP/GIF reference uploads, Supabase Auth/RPCs, bulk board management, EN/ID UI, and audio controls.",
     stack: [
       "Vue 3",
+      "Vue Router",
       "TypeScript",
       "Tailwind CSS v4",
       "Supabase",
@@ -338,7 +340,7 @@ export const personalProjects: readonly ProjectItem[] = [
     imageAlt:
       "Home page of RFT Compress showing Image and Sound compression cards",
     description:
-      "Client-side image and audio compressor running locally in browser memory with WebAssembly and zero server uploads. Converts raster images to WebP, optimizes animated GIFs, encodes audio to MP3 by bitrate, and exports batches as ZIP.",
+      "Client-side image and audio compressor running locally in browser memory via WebAssembly with zero server uploads. Encodes raster images to WebP, optimizes animated GIFs, compresses audio to MP3 across bitrates with inline preview, and exports batches as ZIP.",
     stack: [
       "React",
       "TypeScript",

@@ -229,11 +229,11 @@ const ID_TECH_TRANSLATIONS: Record<
 
 const ID_PROJECT_DESCRIPTIONS: readonly string[] = [
   "Portal internet banking ritel enterprise bagi nasabah CIMB Niaga di seluruh Indonesia. Mengembangkan dan memelihara modul frontend ketersediaan tinggi dengan React.js, TypeScript, dan Redux Toolkit—mencakup ringkasan rekening, transfer dana, pembayaran tagihan, investasi, dan verifikasi transaksi multi-faktor.",
-  "Portofolio responsif dan resume interaktif yang menampilkan pengalaman frontend, pendidikan, keahlian, dan proyek. Dilengkapi filter teknologi, tema terang dan gelap, pengguliran halus, unduhan resume, serta formulir kontak email.",
-  "Chatbot konsultasi karir IT berbasis Google Gemini untuk panduan karir, peta jalan belajar, serta ulasan CV dan portofolio. Mendukung unggahan PDF, gambar, dan audio untuk umpan balik, termasuk simulasi wawancara kerja.",
-  "Portofolio dwibahasa untuk ilustrator dan animator 2D Febrian Thomas yang menampilkan karya ilustrasi, proyek, dan artikel. Dilengkapi pencarian, tag, tema terang dan gelap, serta editor teks terkelola untuk pemilik.",
-  "Pelacak antrean komisi, portal permintaan, dan ruang kerja pemilik untuk ilustrator febrianthomas. Dilengkapi papan kanban langsung, pengajuan slot komisi dengan unggahan WebP, antarmuka dwibahasa EN/ID, dan pergantian tema.",
-  "Kompresor gambar dan audio sisi klien yang berjalan lokal di memori browser dengan WebAssembly tanpa unggahan ke server. Mengonversi gambar raster ke WebP, mengoptimalkan GIF animasi, mengkodekan audio ke MP3 berdasarkan bitrate, dan mengekspor batch sebagai ZIP.",
+  "Portofolio pribadi dan resume interaktif yang menampilkan pengalaman frontend, pendidikan, keahlian, dan proyek. Dilengkapi karusel teknologi dengan filter, pergantian bahasa EN/ID, tema gelap dan terang, gulir halus Lenis, unduhan CV, serta formulir kontak.",
+  "Chatbot konsultan karir IT multimodal berbasis Google Gemini. Membantu pengguna merancang peta jalan karir IT, pemrograman, wawancara teknis, portofolio, dan CV, serta mendukung unggahan gambar, PDF, dan audio hingga 20 MB dengan format balasan Markdown.",
+  "Portofolio dan blog dwibahasa EN/ID untuk ilustrator dan animator 2D Febrian Thomas. Didukung Supabase untuk artikel, proyek, autentikasi, dan penyimpanan langsung tanpa build ulang, dilengkapi pencarian tag, editor Tiptap, optimasi WebP/GIF, tema, dan audio.",
+  "Pelacak antrean komisi, portal permintaan, dan ruang kerja admin untuk febrianthomas. Dilengkapi papan kanban 6 tahap, slot penawaran USD/IDR dengan unggahan referensi WebP/GIF, Auth/RPC Supabase, pengelolaan papan massal, antarmuka EN/ID, dan kontrol audio.",
+  "Kompresor gambar dan audio sisi klien yang berjalan lokal di memori browser dengan WebAssembly tanpa unggahan ke server. Mengonversi gambar raster ke WebP, mengoptimalkan GIF animasi, mengompresi audio ke MP3 beserta pratinjau putar, dan mengekspor batch sebagai ZIP.",
 ];
 
 export function getPortfolioContent(locale: Locale): LocalizedPortfolioContent {
