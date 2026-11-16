@@ -351,8 +351,8 @@ export const personalProjects: readonly ProjectItem[] = [
       "Web Audio API",
       "fflate",
     ],
-    repoUrl: "https://github.com/rudyfebrianthomas/compress-images",
-    demoUrl: "https://compress-images.vercel.app/",
+    repoUrl: "https://github.com/rudyfebrianthomas/rft-compress",
+    demoUrl: "https://rft-compress.vercel.app/",
   },
 ];
 
