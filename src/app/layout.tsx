@@ -15,6 +15,8 @@ const jetbrainsMono = JetBrains_Mono({
 const siteTitle = "Rudy Febrian Thomas — Frontend Web Developer";
 const siteDescription =
   "Portfolio and resume of Rudy Febrian Thomas, a Frontend Web Developer with 6+ years of experience in React.js, TypeScript and modern frontend architecture.";
+const previewAlt =
+  "Rudy Febrian Thomas — Frontend Web Developer portfolio preview";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rudyfebrianthomas.github.io"),
@@ -29,10 +31,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/og-preview.png",
+        url: "/preview.webp",
         width: 1200,
         height: 630,
-        alt: "Rudy Febrian Thomas — Frontend Web Developer portfolio preview",
+        alt: previewAlt,
       },
     ],
   },
@@ -40,7 +42,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/images/og-preview.png"],
+    images: [
+      {
+        url: "/preview.webp",
+        alt: previewAlt,
+      },
+    ],
   },
 };
 

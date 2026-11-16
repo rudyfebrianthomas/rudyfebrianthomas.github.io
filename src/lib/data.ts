@@ -336,7 +336,7 @@ export const personalProjects: readonly ProjectItem[] = [
   },
   {
     name: "RFT Compress — Image & Audio Compressor",
-    image: "/images/projects/project-compress.png",
+    image: "/images/projects/project-compress.webp",
     imageAlt:
       "Home page of RFT Compress showing Image and Sound compression cards",
     description:
